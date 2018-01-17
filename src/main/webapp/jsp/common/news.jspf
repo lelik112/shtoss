@@ -1,0 +1,11 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="custom" uri="http://cheltsov.net" %>
+
+<a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.news" />">
+    ${message["mess.button.all-news"]}
+</a><br>
+    <c:forEach var="news" items="${news}" end="2">
+        <span class="date"><fmt:formatDate type="date" dateStyle="short" value="${news.date}"/></span><br>
+        <h4>${news.caption}</h4>
+        <p><custom:trim maxCharacters="120" value="${news.text}" /></p>
+    </c:forEach>

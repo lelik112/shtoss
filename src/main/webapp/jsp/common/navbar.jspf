@@ -1,0 +1,86 @@
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <h2>${suit.htmlCode}</h2>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.main" />">${message["mess.button.home"]}</a>
+                </li>
+                <li>
+                    <c:choose>
+                        <c:when test="${user.role.roleID == 2}">
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=admin-inbox" />">${message["mess.button.inbox"]}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=inbox" />">${message["mess.button.inbox"]}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        ${message["mess.button.language"]} <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=change-language&language=en" />">${message["mess.language.en"]}</a>
+                        </li>
+                        <li>
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=change-language&language=ru" />">${message["mess.language.ru"]}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-rating" />">${message["mess.button.rating"]}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.settings" />">${message["mess.button.settings"]}</a></li>
+                <c:choose>
+                    <c:when test="${user.role.roleID == 2}">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    ${user.role} <span class="caret"/>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=user_id" />">${message["mess.button.admin-page"]}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><p class="navbar-text">${user.role}</p></li>
+                    </c:otherwise>
+                </c:choose>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        ${user} <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.profile" />">${message["mess.button.profile"]}</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        ${message["mess.info.balance"]} ${user.balance} <span class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-operations" />">${message["mess.button.operation-history"]}</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.payment" />">
+                        ${message["mess.button.add-funds"]}</a></li>
+                <li><a href="${pageContext.request.contextPath}/controller?command=logout">
+                    <span class="glyphicon glyphicon-log-out"></span>${message["mess.button.logout"]}</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

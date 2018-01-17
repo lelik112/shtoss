@@ -1,0 +1,59 @@
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+table {
+    text-align: left;
+    width: 100%;
+}
+
+.small {
+    font-size: 70%;
+}
+.col1 {
+    width: 20%;
+    text-align: left;
+}
+.me {
+    background-color: #f2f2f2;
+    text-align: right;
+}
+
+.another {
+    text-align: left;
+}
+.red {
+    color: red;
+}
+.green {
+    color: green;
+}
+
+.card-class{
+    font-family: Symbola, "DejaVu Sans", "Times New Roman";
+    font-size: 69px;
+}
+
+
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 450px}
+
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: 100%;
+    overflow: auto;
+    text-align: left;
+}
+
+
+/* Set black background color, white text and some padding */
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}
+

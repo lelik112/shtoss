@@ -1,0 +1,14 @@
+<div class="col-sm-6">
+    <p>${message["mess.label.request-from"]}: ${pageContext.errorData.requestURI} ${message["mess.label.failed"]}"</p>
+    <br/>
+    <p>${message["mess.label.servlet-name"]}: ${pageContext.errorData.servletName}</p>
+    <br/>
+    <p>${message["mess.label.status-code"]}: ${pageContext.errorData.statusCode}</p>
+    <br/>
+    <p> ${message["mess.label.exception"]}: ${pageContext.errorData.throwable}</p>
+    <br/>
+    <a class="btn btn-link"
+       href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.login" />">
+        ${message["mess.label.login"]}
+    </a>
+</div>
