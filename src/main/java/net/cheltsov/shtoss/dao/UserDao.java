@@ -14,6 +14,7 @@ public interface UserDao {
     boolean updateBalance (BigDecimal amount, int userID) throws DaoException;
     boolean updateNames (String firstName, String lastName, int userID) throws DaoException;
     boolean updatePassword (String newPassword, int userID) throws DaoException;
+    boolean updateEmail (String email, int userID) throws DaoException;
     boolean isEmailFree (String email) throws DaoException;
     boolean isLoginFree (String login) throws DaoException;
     boolean createUser(User user) throws DaoException;

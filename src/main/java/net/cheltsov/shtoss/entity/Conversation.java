@@ -1,9 +1,10 @@
 package net.cheltsov.shtoss.entity;
 
-import java.util.Date;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Conversation extends Entity {
+public class Conversation implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String topic;
     private int conversationID;
     private User user;
@@ -11,7 +12,6 @@ public class Conversation extends Entity {
 
     public String getTopic() {
         return topic;
-
     }
 
     public void setTopic(String topic) {
@@ -42,4 +42,30 @@ public class Conversation extends Entity {
         this.lastMessage = lastMessage;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Conversation that = (Conversation) o;
+        return conversationID == that.conversationID &&
+                Objects.equals(topic, that.topic) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(lastMessage, that.lastMessage);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(topic, conversationID, user, lastMessage);
+    }
+
+    @Override
+    public String toString() {
+        return "Conversation{" +
+                "topic='" + topic + '\'' +
+                ", conversationID=" + conversationID +
+                ", user=" + user +
+                ", lastMessage=" + lastMessage +
+                '}';
+    }
 }

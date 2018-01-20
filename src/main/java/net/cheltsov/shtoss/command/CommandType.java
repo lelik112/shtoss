@@ -28,7 +28,8 @@ public enum CommandType {
     SHOW_STATUS(new ShowStatusCommand()),
     CHANGE_ROLE(new ChangeStatusCommand()),
     CHANGE_SUIT(new ChangeSuitCommand()),
-    CHANGE_DECK(new ChangeDeckCommand());
+    CHANGE_DECK(new ChangeDeckCommand()),
+    CHANGE_EMAIL(new ChangeEmailCommand());
 
     private Command command;
 

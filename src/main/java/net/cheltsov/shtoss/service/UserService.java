@@ -13,9 +13,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-import static net.cheltsov.shtoss.validator.ValidationResult.ALL_RIGHT;
-import static net.cheltsov.shtoss.validator.ValidationResult.PASSWORD_NOT_CORRECT;
-import static net.cheltsov.shtoss.validator.ValidationResult.SERVICE_ERROR;
+import static net.cheltsov.shtoss.validator.ValidationResult.*;
 
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -43,28 +41,25 @@ public class UserService {
     }
 
     public static ValidationResult changePassword(User user, String oldPassword, String newPassword) {
-        User sameUser;
         try {
-            sameUser = authorize(user.getLogin(), oldPassword).get();
-            if (sameUser == null) return PASSWORD_NOT_CORRECT;
+            Optional<User> sameUser = authorize(user.getLogin(), oldPassword);
+            if (!sameUser.isPresent()) return PASSWORD_NOT_CORRECT;
             if (factory.getUserDao().updatePassword(newPassword, user.getID())) return ALL_RIGHT;
-        } catch (ServiceException e) {
-            LOGGER.log(Level.ERROR, "Exception while authorization", e);
-        } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, "Exception while changing password", e);
+        } catch (ServiceException | DaoException e) {
+            LOGGER.catching(e);
         }
         return SERVICE_ERROR;
     }
 
     public static ValidationResult register(User user, String login, String password, String email, String firstName, String lastName) throws ServiceException {
 
-        try (Initializer initializer = factory.getInitializer()) {
-            UserDao userDao = factory.getUserDao(initializer);
+        try  {
+            UserDao userDao = factory.getUserDao();
             if (!userDao.isLoginFree(login)) {
                 return ValidationResult.LOGIN_NOT_UNIQUE;
             }
             if (!userDao.isEmailFree(email)) {
-                return ValidationResult.EMAIL_NOT_UNIQUE;
+                return EMAIL_NOT_UNIQUE;
             }
             user.setLogin(login);
             user.setPassword(password);
@@ -112,9 +107,6 @@ public class UserService {
             initializer = factory.getInitializer();
             initializer.setAutoCommit(false);
             UserDao userDao = factory.getUserDao(initializer);
-//            if (User.Role.ADMIN.equals(userToChange.getRole()) && userDao.countAdmin() < 2) {
-//                return false;
-//            }
             userDao.updateRole(userToChange.getID(), newRole.ordinal());
             if (User.Role.ADMIN.equals(userToChange.getRole()) && userDao.countAdmin() < 1) {
                 initializer.rollback(); // TODO: 06.01.2018 проверить работоспособность
@@ -129,6 +121,22 @@ public class UserService {
         } finally {
             initializer.close();
         }
+    }
+
+    public static ValidationResult changeEmail(User user, String password, String email) {
+        UserDao userDao = factory.getUserDao();
+        try {
+            Optional<User> sameUser = authorize(user.getLogin(), password);
+            if (!sameUser.isPresent()) return PASSWORD_NOT_CORRECT;
+            if (!userDao.isEmailFree(email)) return EMAIL_NOT_UNIQUE;
+            if (userDao.updateEmail(email, user.getID())) {
+                user.setEmail(email);
+                return ALL_RIGHT;
+            }
+        } catch (ServiceException | DaoException e) {
+            LOGGER.catching(e);
+        }
+        return SERVICE_ERROR;
     }
 }
 

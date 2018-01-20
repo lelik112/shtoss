@@ -1,10 +1,13 @@
 package net.cheltsov.shtoss.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Objects;
 
-public class Game extends Entity {
+public class Game implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int gameID;
     private BigDecimal bid;
     private int userID;
@@ -43,6 +46,23 @@ public class Game extends Entity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return gameID == game.gameID &&
+                userID == game.userID &&
+                Objects.equals(bid, game.bid) &&
+                Objects.equals(date, game.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(gameID, bid, userID, date);
     }
 
     @Override

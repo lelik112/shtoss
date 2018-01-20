@@ -1,8 +1,11 @@
 package net.cheltsov.shtoss.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 
-public class UserRating extends Entity {
+public class UserRating implements Serializable {
+    private static final long serialVersionUID = 1L;
     String userLogin;
     int allGames;
     int winGames;
@@ -38,5 +41,32 @@ public class UserRating extends Entity {
 
     public void setTotalBid(BigDecimal totalBid) {
         this.totalBid = totalBid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserRating rating = (UserRating) o;
+        return allGames == rating.allGames &&
+                winGames == rating.winGames &&
+                Objects.equals(userLogin, rating.userLogin) &&
+                Objects.equals(totalBid, rating.totalBid);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(userLogin, allGames, winGames, totalBid);
+    }
+
+    @Override
+    public String toString() {
+        return "UserRating{" +
+                "userLogin='" + userLogin + '\'' +
+                ", allGames=" + allGames +
+                ", winGames=" + winGames +
+                ", totalBid=" + totalBid +
+                '}';
     }
 }

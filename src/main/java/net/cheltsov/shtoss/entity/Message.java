@@ -1,8 +1,10 @@
 package net.cheltsov.shtoss.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-public class Message extends Entity {
+public class Message implements Serializable {
     private int message_ID;
     private int conversationID;
     private User user;
@@ -51,5 +53,34 @@ public class Message extends Entity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return message_ID == message.message_ID &&
+                conversationID == message.conversationID &&
+                Objects.equals(user, message.user) &&
+                Objects.equals(text, message.text) &&
+                Objects.equals(date, message.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(message_ID, conversationID, user, text, date);
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "message_ID=" + message_ID +
+                ", conversationID=" + conversationID +
+                ", user=" + user +
+                ", text='" + text + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

@@ -1,8 +1,11 @@
 package net.cheltsov.shtoss.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-public class News extends Entity {
+public class News implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int newsID;
     private User user;
     private String caption;
@@ -47,5 +50,34 @@ public class News extends Entity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return newsID == news.newsID &&
+                Objects.equals(user, news.user) &&
+                Objects.equals(caption, news.caption) &&
+                Objects.equals(text, news.text) &&
+                Objects.equals(date, news.date);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(newsID, user, caption, text, date);
+    }
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "newsID=" + newsID +
+                ", user=" + user +
+                ", caption='" + caption + '\'' +
+                ", text='" + text + '\'' +
+                ", date=" + date +
+                '}';
     }
 }

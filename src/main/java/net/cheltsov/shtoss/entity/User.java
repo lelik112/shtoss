@@ -1,11 +1,13 @@
 package net.cheltsov.shtoss.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class User extends Entity {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String login;
-    private String password;
+    transient private String password;
     private String email;
     private String firstName;
     private String lastName;

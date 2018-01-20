@@ -28,6 +28,7 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
     private static final String SQL_UPDATE_BALANCE = "UPDATE user SET balance = balance + ? WHERE user_id = ?";
     private static final String SQL_UPDATE_NAMES = "UPDATE user SET fname = ?, lname = ? WHERE user_id = ?";
     private static final String SQL_UPDATE_PASSWORD = "UPDATE user SET password = md5(?) WHERE user_id = ?";
+    private static final String SQL_UPDATE_EMAIL = "UPDATE user SET email = ? WHERE user_id = ?";
     private static final String SQL_UPDATE_ROLE = "UPDATE user SET role = ? WHERE user_id = ?";
     private static final String SQL_FIND_ALL_USERS = "SELECT user_id, login, email, balance, role, fname, lname FROM user ORDER BY login";
     private static final String SQL_FIND_USER_BY_ID = "SELECT user_id, login, email, balance, role, fname, lname FROM user" +
@@ -130,6 +131,20 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
         try (PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_PASSWORD)) {
             ps.setString(1, newPassword);
             ps.setInt(2, userID);
+            return ps.executeUpdate() == 1;
+        } catch (SQLException e) {
+            throw new DaoException("Problem with preparing statement", e);
+        } finally {
+            releaseConnectionIfLocal(cn);
+        }
+    }
+
+    @Override
+    public boolean updateEmail(String email, int userID) throws DaoException {
+        Connection cn = getConnection();
+        try (PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_EMAIL)) {
+            ps.setInt(2, userID);
+            ps.setString(1, email);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new DaoException("Problem with preparing statement", e);

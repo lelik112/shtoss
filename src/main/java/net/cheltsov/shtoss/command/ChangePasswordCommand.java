@@ -28,7 +28,7 @@ public class ChangePasswordCommand implements Command {
             String oldPassword = request.getParameter(PARAM_OLD_PASSWORD);
             String newPassword = request.getParameter(PARAM_NEW_PASSWORD);
             ResourceBundle rb = getCurrentBundle(request);
-            if (!Validator.validatePassword(newPassword)) {
+            if (oldPassword.equals(newPassword) && !Validator.validatePassword(newPassword)) {
                 request.setAttribute(ATTR_ERROR_PASSWORD_CHANGE, getCurrentBundle(request).getString("mess.error.something-wrong"));
                 return PATH_JSP.getString("jsp.profile");
             }
