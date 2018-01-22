@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Shtoss">
+
+    <test name="UnitTests">
+        <!--<groups>
+            <run>
+                <exclude name="general"/>
+            </run>
+        </groups>-->
+        <classes>
+            <class name="net.cheltsov.shtoss.database.ConnectionPoolTest"/>
+        </classes>
+    </test>
+
+    <!--<test name="GeneralTest">
+        <groups>
+            <run>
+                <include name="general"/>
+            </run>
+        </groups>
+        <classes>
+            <class name=""/>
+        </classes>
+    </test>-->
+
+</suite>
