@@ -8,20 +8,20 @@ import java.util.Objects;
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int gameID;
+    private int gameId;
     private BigDecimal bid;
-    private int userID;
+    private int userId;
     private Date date;
 
     public Game() {
     }
 
-    public int getGameID() {
-        return gameID;
+    public int getGameId() {
+        return gameId;
     }
 
-    public void setGameID(int gameID) {
-        this.gameID = gameID;
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 
     public BigDecimal getBid() {
@@ -32,12 +32,12 @@ public class Game implements Serializable {
         this.bid = bid;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {
@@ -53,8 +53,8 @@ public class Game implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return gameID == game.gameID &&
-                userID == game.userID &&
+        return gameId == game.gameId &&
+                userId == game.userId &&
                 Objects.equals(bid, game.bid) &&
                 Objects.equals(date, game.date);
     }
@@ -62,15 +62,15 @@ public class Game implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(gameID, bid, userID, date);
+        return Objects.hash(gameId, bid, userId, date);
     }
 
     @Override
     public String toString() {
         return "Game{" +
-                "gameID=" + gameID +
+                "gameId=" + gameId +
                 ", bid=" + bid +
-                ", userID=" + userID +
+                ", userId=" + userId +
                 ", date=" + date +
                 '}';
     }

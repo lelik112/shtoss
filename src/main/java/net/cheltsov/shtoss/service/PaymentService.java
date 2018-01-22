@@ -1,7 +1,6 @@
 package net.cheltsov.shtoss.service;
 
 import net.cheltsov.shtoss.dao.*;
-import net.cheltsov.shtoss.dao.sql.SqlDaoFactory;
 import net.cheltsov.shtoss.dao.sql.SqlUserDao;
 import net.cheltsov.shtoss.entity.BalanceOperation;
 import net.cheltsov.shtoss.entity.Payment;
@@ -21,7 +20,7 @@ public class PaymentService {
     public static boolean addFunds(User user, BigDecimal amount) {
         Payment payment = new Payment();
         payment.setAmount(amount);
-        payment.setUserID(user.getID());
+        payment.setUserId(user.getUserId());
         Initializer initializer = null;
         try {
             initializer = factory.getInitializer();
@@ -29,7 +28,7 @@ public class PaymentService {
             PaymentDao paymentDao = factory.getPaymentDao(initializer);
             initializer.setAutoCommit(false);
             paymentDao.create(payment);
-            userDao.updateBalance(payment.getAmount(), user.getID());
+            userDao.updateBalance(payment.getAmount(), user.getUserId());
             initializer.commit();
         } catch (DaoException e) {
             initializer.rollback();
@@ -39,7 +38,7 @@ public class PaymentService {
             initializer.close();
         }
         try {
-            user.setBalance(SqlUserDao.getMethodLevelUserDao().findUserById(user.getID()).getBalance());
+            user.setBalance(SqlUserDao.getMethodLevelUserDao().findUserById(user.getUserId()).getBalance());
         } catch (DaoException e) {
             LOGGER.catching(e);
         }
@@ -48,7 +47,7 @@ public class PaymentService {
 
     public static List<BalanceOperation> findUserOperations(User user) throws ServiceException {
         try {
-            return factory.getPaymentDao().findUserOperations(user.getID());
+            return factory.getPaymentDao().findUserOperations(user.getUserId());
         } catch (DaoException e) {
             throw new ServiceException("Problem with finding user operations", e);
         }

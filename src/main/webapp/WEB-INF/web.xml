@@ -39,14 +39,6 @@
         <url-pattern>/jsp/*</url-pattern>
     </filter-mapping>
     <filter>
-        <filter-name>RoleFilter</filter-name>
-        <filter-class>net.cheltsov.shtoss.controller.RoleFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>RoleFilter</filter-name>
-        <servlet-name>MainServlet</servlet-name>
-    </filter-mapping>
-    <filter>
         <filter-name>RepeatFilter</filter-name>
         <filter-class>net.cheltsov.shtoss.controller.RepeatFilter</filter-class>
     </filter>
@@ -54,9 +46,21 @@
         <filter-name>RepeatFilter</filter-name>
         <servlet-name>MainServlet</servlet-name>
     </filter-mapping>
+    <filter>
+        <filter-name>RoleFilter</filter-name>
+        <filter-class>net.cheltsov.shtoss.controller.RoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RoleFilter</filter-name>
+        <servlet-name>MainServlet</servlet-name>
+    </filter-mapping>
+
 
     <listener>
         <listener-class>net.cheltsov.shtoss.controller.ShtossContextListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>net.cheltsov.shtoss.controller.ShtossSessionListener</listener-class>
     </listener>
     <listener>
         <listener-class>net.cheltsov.shtoss.controller.ShtossRequestListener</listener-class>

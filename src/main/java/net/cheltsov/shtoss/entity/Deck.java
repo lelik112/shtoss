@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 public enum Deck {
     SMALL(6), BIG(2);
-
     private static final int PLAYING_CARD_BACK = 0x1F0A0;
     private static final int NUMBER_OF_SUIT = 4;
     private static final int STEP = 16;
@@ -23,7 +22,7 @@ public enum Deck {
     }
 
     public Set<Integer> getNewDeck() {
-         HashSet newDeck = new HashSet<>(STEP * NUMBER_OF_SUIT, 1);
+        HashSet<Integer> newDeck = new HashSet<>(STEP * NUMBER_OF_SUIT, 1);
          newDeck.addAll(deck);
          return newDeck;
     }

@@ -12,8 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 public class GameService {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -26,7 +28,7 @@ public class GameService {
         card = card & (STEP - 1);
         List<Integer> moves = giveOutCards(card, deck);
         Game game = new Game();
-        game.setUserID(user.getID());
+        game.setUserId(user.getUserId());
         if (moves.size() % 2 == 0) {
             game.setBid(bid);
         } else {
@@ -38,9 +40,9 @@ public class GameService {
             initializer.setAutoCommit(false);
             GameDao gameDao = factory.getGameDao(initializer);
             UserDao userDao = factory.getUserDao(initializer);
-            game.setGameID(gameDao.findLastGameID(user.getID()) + 1);
+            game.setGameId(gameDao.findLastGameID(user.getUserId()) + 1);
             gameDao.create(game);
-            userDao.updateBalance(game.getBid(), user.getID());
+            userDao.updateBalance(game.getBid(), user.getUserId());
             initializer.commit();
             LOGGER.log(Level.INFO, "User: " + user.getLogin() + " did the game");
         } catch (DaoException e) {

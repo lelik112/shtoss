@@ -2,7 +2,6 @@ package net.cheltsov.shtoss.service;
 
 import net.cheltsov.shtoss.dao.AbstractDaoFactory;
 import net.cheltsov.shtoss.dao.DaoManager;
-import net.cheltsov.shtoss.dao.sql.SqlDaoFactory;
 import net.cheltsov.shtoss.dao.sql.SqlNewsDao;
 import net.cheltsov.shtoss.entity.News;
 import net.cheltsov.shtoss.entity.User;
@@ -43,7 +42,7 @@ public class NewsService {
         news.setText(text);
         news.setUser(user);
         try {
-            news.setNewsID(factory.getNewsDao().crateNews(news));
+            news.setNewsId(factory.getNewsDao().crateNews(news));
             news.setDate(new Date());
             return Optional.of(news);
         } catch (DaoException e) {
@@ -54,7 +53,7 @@ public class NewsService {
 
     public static boolean updateNews(String topic, String text, int newsID) {
         News news = new News();
-        news.setNewsID(newsID);
+        news.setNewsId(newsID);
         news.setCaption(topic);
         news.setText(text);
         try {

@@ -7,17 +7,17 @@ import java.util.Objects;
 
 public class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int ID; // TODO: 14.12.2017 Можно тут int?
+    private int paymentId; // TODO: 14.12.2017 Можно тут int?
     private BigDecimal amount;
-    private int userID;
+    private int userId;
     private Date date;
 
-    public int getID() {
-        return ID;
+    public int getPaymentId() {
+        return paymentId;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
     }
 
     public BigDecimal getAmount() {
@@ -28,12 +28,12 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {
@@ -49,8 +49,8 @@ public class Payment implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Payment payment = (Payment) o;
-        return ID == payment.ID &&
-                userID == payment.userID &&
+        return paymentId == payment.paymentId &&
+                userId == payment.userId &&
                 Objects.equals(amount, payment.amount) &&
                 Objects.equals(date, payment.date);
     }
@@ -58,15 +58,15 @@ public class Payment implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(ID, amount, userID, date);
+        return Objects.hash(paymentId, amount, userId, date);
     }
 
     @Override
     public String toString() {
         return "Payment{" +
-                "ID=" + ID +
+                "paymentId=" + paymentId +
                 ", amount=" + amount +
-                ", userID=" + userID +
+                ", userId=" + userId +
                 ", date=" + date +
                 '}';
     }

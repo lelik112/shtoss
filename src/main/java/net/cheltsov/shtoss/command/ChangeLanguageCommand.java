@@ -7,12 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ResourceBundle;
 
-import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
-
 public class ChangeLanguageCommand implements Command, Responsenable {
     private static final String PARAM_LANGUAGE = "language";
     private static final String ATTR_MESSAGE = "message";
     private static final String ATTR_RESPONSE = "response";
+
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -25,9 +24,7 @@ public class ChangeLanguageCommand implements Command, Responsenable {
             HttpServletResponse response = (HttpServletResponse) request.getAttribute(ATTR_RESPONSE);
             response.addCookie(cookie);
         }
-
         request.removeAttribute(ATTR_RESPONSE);
-        // TODO: 25.12.2017 Как уйти на предыдущую страницу
-        return PATH_JSP.getString("jsp.main");
+        return repeatPreviousCommand(request);
     }
 }

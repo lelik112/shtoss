@@ -43,7 +43,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=user_id" />">${message["mess.button.admin-page"]}</a>
+                                    <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users" />">${message["mess.button.admin-page"]}</a>
                                 </li>
                             </ul>
                         </li>

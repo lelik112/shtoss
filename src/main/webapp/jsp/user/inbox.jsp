@@ -41,7 +41,7 @@
                             <td><p>${conversation.user}</p></td>
                         </c:if>
                         <td class="list-group-item">
-                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-messages&conversation-id=${conversation.conversationID}" />">
+                            <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-messages&conversationId=${conversation.conversationId}" />">
                                 <h3 class="list-group-item-heading">${conversation.topic}</h3>
                             </a>
                                 <p class="list-group-item-text">${conversation.lastMessage.user}: <custom:trim maxCharacters="60" value="${conversation.lastMessage.text}" /></p>

@@ -5,8 +5,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -24,6 +22,11 @@ import static net.cheltsov.shtoss.resource.BundleManager.DATABASE;
 
 public final class ConnectionPool {
 
+    public final int MIN_SIZE = 10;
+    public final int MAX_SIZE = 50;
+    public final int EXTENSION_SIZE = 10;
+
+
     private static final Logger LOGGER = LogManager.getLogger();
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final Lock lock = new ReentrantLock();
@@ -32,9 +35,6 @@ public final class ConnectionPool {
     private final String DB_URI_VALUE;
     private final Properties properties;
 
-    private final int MIN_SIZE = 10;
-    private final int EXTENSION_SIZE = 10;
-    private final int MAX_SIZE = 50;
     private final int WAIT_CONNECTION_SECONDS = 10;
     private final int LOOSING_CONNECTION_INTERVAL_MINUTES = 10;
     private final int CHECKING_INTERVAL_MINUTES = 30;
@@ -46,7 +46,7 @@ public final class ConnectionPool {
 
     private ConnectionPool() {
         if (instance != null) {
-            LOGGER.log(Level.FATAL,"Attempt to createUser the second instance of pool");
+            LOGGER.log(Level.FATAL, "Attempt to createUser the second instance of pool");
             throw new RuntimeException("Don't try to do it");
         }
 
@@ -60,7 +60,7 @@ public final class ConnectionPool {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             createConnections(MIN_SIZE);
         } catch (SQLException | IOException e) {
-            LOGGER.log(Level.FATAL,"Can't createUser connection pool", e);
+            LOGGER.log(Level.FATAL, "Can't createUser connection pool", e);
             throw new RuntimeException("Can't createUser connection pool", e);
         }
 
@@ -82,7 +82,7 @@ public final class ConnectionPool {
         return instance;
     }
 
-   private class PoolSizeChecker implements Runnable {
+    private class PoolSizeChecker implements Runnable {
         @Override
         public void run() {
             while (waitingConnections.size() > MIN_SIZE) {
@@ -139,21 +139,22 @@ public final class ConnectionPool {
         }
 
         try {
-            while (currentNumber.get() <= MAX_SIZE && connection == null) {
+            while (currentNumber.get() < MAX_SIZE && connection == null) {
                 createConnections(EXTENSION_SIZE);
                 connection = waitingConnections.poll();
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.ERROR, "Error while creating connection", e);
+            throw new DaoException("Error while creating connection", e);
         }
 
         if (connection != null) {
             return addToMapAndReturn(connection);
         }
+
         try {
             connection = waitingConnections.poll(WAIT_CONNECTION_SECONDS, TimeUnit.SECONDS);
         } catch (InterruptedException ignore) {
-                /*NOP*/
+            /*NOP*/
         }
         if (connection != null) {
             return addToMapAndReturn(connection);
@@ -165,8 +166,9 @@ public final class ConnectionPool {
         if (!lock.tryLock()) {
             return;
         }
+        int limit = MAX_SIZE - currentNumber.get();
         try {
-            for (int i = 0; i < Math.min(quantity, MAX_SIZE - currentNumber.get()); i++) {
+            for (int i = 0; i < Math.min(quantity, limit); i++) {
                 waitingConnections.add(DriverManager.getConnection(DB_URI_VALUE, properties));
                 currentNumber.incrementAndGet();
             }
@@ -182,14 +184,18 @@ public final class ConnectionPool {
         return connection;
     }
 
+    public int getCurrentSize() {
+        return waitingConnections.size() + occupiedConnections.size();
+    }
+
     public void closePool() {
-        waitingConnections.stream().forEach(this::closeConnection);
+        waitingConnections.forEach(this::closeConnection);
         waitingConnections.clear();
-        occupiedConnections.keySet().stream().forEach(this::closeConnection);
+        occupiedConnections.keySet().forEach(this::closeConnection);
         occupiedConnections.clear();
         deregisterDriver();
         es.shutdown();
-        LOGGER.log(Level.INFO,"Pool closed");
+        LOGGER.log(Level.INFO, "Pool closed");
     }
 
     private void deregisterDriver() {
@@ -198,16 +204,16 @@ public final class ConnectionPool {
             Driver driver = drivers.nextElement();
             try {
                 DriverManager.deregisterDriver(driver);
-                LOGGER.log(Level.INFO,"Driver was deregistered", driver);
+                LOGGER.log(Level.INFO, "Driver was deregistered", driver);
             } catch (SQLException e) {
-                LOGGER.log(Level.ERROR, "Error while deregistering driver.", e);
+                LOGGER.catching(e);
             }
         }
     }
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        LOGGER.log(Level.FATAL,"Attempt to createUser the second instance of pool");
+        LOGGER.log(Level.FATAL, "Attempt to create the second instance of pool");
         throw new CloneNotSupportedException("Don't try to do it");
     }
 

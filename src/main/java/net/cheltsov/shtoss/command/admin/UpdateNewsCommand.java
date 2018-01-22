@@ -2,16 +2,12 @@ package net.cheltsov.shtoss.command.admin;
 
 import net.cheltsov.shtoss.command.Command;
 import net.cheltsov.shtoss.entity.News;
-import net.cheltsov.shtoss.entity.User;
 import net.cheltsov.shtoss.service.NewsService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
@@ -31,7 +27,7 @@ public class UpdateNewsCommand implements Command, AdminCommand {
             ServletContext context = request.getServletContext();
             synchronized (context) {
                 List<News> newsList = (List<News>) context.getAttribute(ATTR_NEWS);
-                Optional<News> shredingeOldNews = newsList.stream().filter(x -> x.getNewsID() == newsID).findAny();
+                Optional<News> shredingeOldNews = newsList.stream().filter(x -> x.getNewsId() == newsID).findAny();
                 if (shredingeOldNews.isPresent() && NewsService.updateNews(topic, text, newsID)) {
                     shredingeOldNews.get().setCaption(topic);
                     shredingeOldNews.get().setText(text);

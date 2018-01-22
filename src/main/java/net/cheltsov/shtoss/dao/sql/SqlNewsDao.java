@@ -6,7 +6,6 @@ import net.cheltsov.shtoss.entity.User;
 import net.cheltsov.shtoss.exception.DaoException;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
 
     private SqlNewsDao(){}
 
-    public SqlNewsDao(SqlInitializer initializer) {
+    SqlNewsDao(SqlInitializer initializer) {
         super(initializer.getConnection());
         initializer.addDao(this);
     }
@@ -71,10 +70,10 @@ public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
         List<News> news = new LinkedList<>();
         while (rs.next()) {
             User user = new User();
-            user.setID(rs.getInt(DAO_U_USER_ID));
+            user.setUserId(rs.getInt(DAO_U_USER_ID));
             user.setLogin(rs.getString(DAO_USER_LOGIN));
             News newsOne = new News();
-            newsOne.setNewsID(rs.getInt(DAO_NEWS_ID));
+            newsOne.setNewsId(rs.getInt(DAO_NEWS_ID));
             newsOne.setCaption(rs.getString(DAO_NEWS_CAPTION));
             newsOne.setText(rs.getString(DAO_NEWS_TEXT));
             newsOne.setDate(rs.getTimestamp(DAO_NEWS_TIME));
@@ -88,7 +87,7 @@ public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
     public int crateNews(News news) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_CREATE_NEWS, Statement.RETURN_GENERATED_KEYS)){
-            ps.setInt(1, news.getUser().getID());
+            ps.setInt(1, news.getUser().getUserId());
             ps.setString(2, news.getCaption());
             ps.setString(3, news.getText());
             ps.executeUpdate();
@@ -126,7 +125,7 @@ public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
         try (PreparedStatement ps = cn.prepareStatement(SQL_UPDATE_NEWS)){
             ps.setString(1, news.getCaption());
             ps.setString(2, news.getText());
-            ps.setInt(3, news.getNewsID());
+            ps.setInt(3, news.getNewsId());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();

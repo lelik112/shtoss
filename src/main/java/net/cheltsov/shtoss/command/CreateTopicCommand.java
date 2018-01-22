@@ -20,7 +20,7 @@ public class CreateTopicCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         synchronized (request.getSession()) {
-            if (Command.isRepeat(request)) {
+            if (isRepeat(request)) {
                 return BundleManager.PATH_JSP.getString("jsp.inbox");
             }
             User user = (User) request.getSession().getAttribute(ATTR_USER);
@@ -34,7 +34,6 @@ public class CreateTopicCommand implements Command {
             Optional<Conversation> shredingerConversation = ConversationService.createTopicByUser(topic, text, user);
             shredingerConversation.ifPresent(conversations::add);
             if (shredingerConversation.isPresent()) {
-                request.getSession().setAttribute(ATTR_COMMAND_TYPE, CommandType.CREATE_TOPIC);
             } else {
                 ResourceBundle rb = getCurrentBundle(request);
                 request.setAttribute(ATTR_ERROR, rb.getString("mess.error.something-wrong"));

@@ -1,6 +1,9 @@
 package net.cheltsov.shtoss.controller;
 
-import net.cheltsov.shtoss.command.*;
+import net.cheltsov.shtoss.command.Command;
+import net.cheltsov.shtoss.command.CommandType;
+import net.cheltsov.shtoss.command.LoginCommand;
+import net.cheltsov.shtoss.command.RegisterCommand;
 import net.cheltsov.shtoss.command.admin.AdminCommand;
 import net.cheltsov.shtoss.entity.User;
 import org.apache.logging.log4j.Level;
@@ -16,7 +19,6 @@ import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
 public class RoleFilter implements Filter {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final String PARAM_OMMAND = "command";
     private static final String ATTR_COMMAND_TYPE = "commandType";
     private static final String ATTR_USER = "user";
     @Override
@@ -29,8 +31,7 @@ public class RoleFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         User user = (User)request.getSession().getAttribute(ATTR_USER);
-        CommandType commandType = ActionFactory.defineCommand(request.getParameter(PARAM_OMMAND));
-        Command command = commandType.getCommand();
+        Command command = ((CommandType) request.getAttribute(ATTR_COMMAND_TYPE)).getCommand();
         if (user == null && !(command instanceof LoginCommand || command instanceof RegisterCommand)) {
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + PATH_JSP.getString("jsp.index")));
             return;
@@ -42,7 +43,6 @@ public class RoleFilter implements Filter {
             response.sendRedirect(request.getContextPath() + PATH_JSP.getString("jsp.guest"));
             return;
         }
-        request.setAttribute(ATTR_COMMAND_TYPE, commandType);
         filterChain.doFilter(request, response);
     }
 

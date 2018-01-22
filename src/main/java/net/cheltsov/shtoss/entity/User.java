@@ -12,7 +12,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private Role role = Role.GUEST;
-    private int ID;
+    private int userId;
     private BigDecimal balance = new BigDecimal(0);
 
     public User() {
@@ -66,12 +66,12 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public int getID() {
-        return ID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public BigDecimal getBalance() {
@@ -87,7 +87,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return ID == user.ID &&
+        return userId == user.userId &&
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
@@ -99,7 +99,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(login, password, email, firstName, lastName, role, ID, balance);
+        return Objects.hash(login, password, email, firstName, lastName, role, userId, balance);
     }
 
     @Override
@@ -109,7 +109,6 @@ public class User implements Serializable {
 
     public enum Role {
         GUEST, USER, ADMIN;
-
         public int getRoleID() {
             return ordinal();
         }

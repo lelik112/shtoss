@@ -21,7 +21,7 @@
         </div>
         <div class="col-sm-9 text-left">
 
-            <h2>${mmessage["mess.info.profile"]}</h2>
+            <h2>${message["mess.info.profile"]}</h2>
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">${message["mess.button.pers-data"]}</a></li>
                 <li><a id="change-password" data-toggle="tab" href="#menu1">${message["mess.button.password"]}</a></li>
@@ -49,7 +49,7 @@
                     </form>
 
                 </div>
-                <div id="menu1" class="tab-pane fade">
+                <div userId="menu1" class="tab-pane fade">
 
                     <form method="POST" action="<c:url value="${pageContext.request.contextPath}/controller" />">
                         <input type="hidden" name="command" value="change-password"/>

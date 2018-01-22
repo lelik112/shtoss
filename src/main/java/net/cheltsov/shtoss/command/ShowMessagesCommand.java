@@ -16,7 +16,7 @@ import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 public class ShowMessagesCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String ATTR_USER = "user";
-    private static final String PARAM_CONVERSATIONS_ID = "conversation-id";
+    private static final String PARAM_CONVERSATIONS_ID = "conversationId";
     private static final String ATTR_MESSAGES = "messages";
     private static final String ATTR_ERROR = "error";
     private static final String ATTR_CONVERSATION = "conversation";

@@ -26,7 +26,7 @@ public class SqlGameDao extends SqlAbstractDao implements GameDao {
     private SqlGameDao() {
     }
 
-    public SqlGameDao(SqlInitializer initializer) {
+    SqlGameDao(SqlInitializer initializer) {
         super(initializer.getConnection());
         initializer.addDao(this);
     }
@@ -44,8 +44,8 @@ public class SqlGameDao extends SqlAbstractDao implements GameDao {
     public boolean create(Game game) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_ADD_GAME)) {
-            ps.setInt(1, game.getGameID());
-            ps.setInt(2, game.getUserID());
+            ps.setInt(1, game.getGameId());
+            ps.setInt(2, game.getUserId());
             ps.setBigDecimal(3, game.getBid());
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {

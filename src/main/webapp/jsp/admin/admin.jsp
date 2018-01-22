@@ -21,7 +21,9 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th><a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=user_id" />">${message["mess.user.id"]}</a></th>
+                    <th>
+                        <a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=userId" />">${message["mess.user.userId"]}</a>
+                    </th>
                     <th><a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=login" />">${message["mess.user.login"]}</a></th>
                     <th><a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=email" />">${message["mess.user.email"]}</a></th>
                     <th><a href="<c:url value="${pageContext.request.contextPath}/controller?command=show-users&order=balance" />">${message["mess.user.balance"]}</a></th>
@@ -34,11 +36,13 @@
                     <c:forEach var="user" items="${users}" varStatus="i">
 
                             <tr>
-                                <td>${user.ID}</td>
+                                <td>${user.userId}</td>
                                 <td>${user.login}</td>
                                 <td>${user.email}</td>
                                 <td>${user.balance}</td>
-                                <td><a title="${message["mess.button.change"]}" href="<c:url value="${pageContext.request.contextPath}/controller?command=show-status&user-id=${user.ID}" />">${user.role}</a></td>
+                                <td><a title="${message["mess.button.change"]}"
+                                       href="<c:url value="${pageContext.request.contextPath}/controller?command=show-status&user-userId=${user.userId}" />">${user.role}</a>
+                                </td>
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>
                             </tr>

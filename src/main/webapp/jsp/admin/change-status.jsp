@@ -26,7 +26,7 @@
                 <h3>${message["mess.h.user"]}${changingUser}, ${message["mess.h.curent-status"]}${changingUser.role}</h3>
                 <form method="POST" action="<c:url value="${pageContext.request.contextPath}/controller" />">
                     <input type="hidden" name="command" value="change-role"/>
-                    <input type="hidden" name="user-id" value="${changingUser.ID}"/>
+                    <input type="hidden" name="user-userId" value="${changingUser.userId}"/>
                     <div class="radio">
                         <label><input type="radio" name="role" value="guest" <c:if test="${changingUser.role eq 'GUEST'}">checked</c:if>>GUEST</label>
                     </div>

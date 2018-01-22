@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Conversation implements Serializable {
     private static final long serialVersionUID = 1L;
     private String topic;
-    private int conversationID;
+    private int conversationId;
     private User user;
     private Message lastMessage;
 
@@ -18,12 +18,12 @@ public class Conversation implements Serializable {
         this.topic = topic;
     }
 
-    public int getConversationID() {
-        return conversationID;
+    public int getConversationId() {
+        return conversationId;
     }
 
-    public void setConversationID(int conversationID) {
-        this.conversationID = conversationID;
+    public void setConversationId(int conversationId) {
+        this.conversationId = conversationId;
     }
 
     public User getUser() {
@@ -47,7 +47,7 @@ public class Conversation implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Conversation that = (Conversation) o;
-        return conversationID == that.conversationID &&
+        return conversationId == that.conversationId &&
                 Objects.equals(topic, that.topic) &&
                 Objects.equals(user, that.user) &&
                 Objects.equals(lastMessage, that.lastMessage);
@@ -56,14 +56,14 @@ public class Conversation implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(topic, conversationID, user, lastMessage);
+        return Objects.hash(topic, conversationId, user, lastMessage);
     }
 
     @Override
     public String toString() {
         return "Conversation{" +
                 "topic='" + topic + '\'' +
-                ", conversationID=" + conversationID +
+                ", conversationId=" + conversationId +
                 ", user=" + user +
                 ", lastMessage=" + lastMessage +
                 '}';

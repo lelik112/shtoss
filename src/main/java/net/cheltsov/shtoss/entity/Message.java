@@ -5,30 +5,31 @@ import java.util.Date;
 import java.util.Objects;
 
 public class Message implements Serializable {
-    private int message_ID;
-    private int conversationID;
+    private static final long serialVersionUID = 1L;
+    private int messageId;
+    private int conversationId;
     private User user;
     private String text;
     private Date date;
 
-    public int getMessage_ID() {
-        return message_ID;
+    public int getMessageId() {
+        return messageId;
     }
 
     public void setMessageID(int message_ID) {
-        this.message_ID = message_ID;
+        this.messageId = message_ID;
     }
 
-    public int getConversationID() {
-        return conversationID;
+    public int getConversationId() {
+        return conversationId;
     }
 
-    public void setConversationID(int conversationID) {
-        this.conversationID = conversationID;
+    public void setConversationId(int conversationId) {
+        this.conversationId = conversationId;
     }
 
-    public void setMessage_ID(int message_ID) {
-        this.message_ID = message_ID;
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
     }
 
     public User getUser() {
@@ -60,8 +61,8 @@ public class Message implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return message_ID == message.message_ID &&
-                conversationID == message.conversationID &&
+        return messageId == message.messageId &&
+                conversationId == message.conversationId &&
                 Objects.equals(user, message.user) &&
                 Objects.equals(text, message.text) &&
                 Objects.equals(date, message.date);
@@ -70,14 +71,14 @@ public class Message implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(message_ID, conversationID, user, text, date);
+        return Objects.hash(messageId, conversationId, user, text, date);
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "message_ID=" + message_ID +
-                ", conversationID=" + conversationID +
+                "messageId=" + messageId +
+                ", conversationId=" + conversationId +
                 ", user=" + user +
                 ", text='" + text + '\'' +
                 ", date=" + date +

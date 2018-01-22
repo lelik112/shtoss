@@ -1,10 +1,7 @@
 package net.cheltsov.shtoss.command;
 
 import net.cheltsov.shtoss.entity.User;
-import net.cheltsov.shtoss.resource.BundleManager;
 import net.cheltsov.shtoss.service.PaymentService;
-import net.cheltsov.shtoss.service.UserService;
-import net.cheltsov.shtoss.validator.ValidationResult;
 import net.cheltsov.shtoss.validator.Validator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +27,7 @@ public class AddFundsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         synchronized (request.getSession()) {
-            if (Command.isRepeat(request)) {
+            if (isRepeat(request)) {
                 return PATH_JSP.getString("jsp.main");
             }
             User user = (User) request.getSession().getAttribute(ATTR_USER);
@@ -38,7 +35,6 @@ public class AddFundsCommand implements Command {
             String stringAmount = request.getParameter(PARAM_AMOUNT).replace(',', '.');
             BigDecimal amount = Validator.validatePayment(stringAmount)? new BigDecimal(stringAmount): BigDecimal.ZERO;
             if (!BigDecimal.ZERO.equals(amount) && PaymentService.addFunds(user, amount)) {
-                request.getSession().setAttribute(ATTR_COMMAND_TYPE, CommandType.PAYMENT);
                 request.setAttribute(CONGRATULATION, rb.getString("mess.info.congratulation"));
                 request.setAttribute(SUCCESS, rb.getString("mess.info.successful"));
                 LOGGER.log(Level.INFO, "User: " + user.getLogin() + " payed " + amount);

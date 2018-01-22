@@ -10,10 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ResourceBundle;
 
-import static net.cheltsov.shtoss.resource.BundleManager.*;
+import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
 public class RegisterCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
@@ -30,7 +29,7 @@ public class RegisterCommand implements Command {
     public String execute(HttpServletRequest request) {
 
         synchronized (request.getSession()) {
-            if (Command.isRepeat(request)) {
+            if (isRepeat(request)) {
                 return PATH_JSP.getString("jsp.main");
             }
 
@@ -67,7 +66,6 @@ public class RegisterCommand implements Command {
             switch (result) {
                 case ALL_RIGHT:
                     request.getSession().setAttribute(ATTR_USER, user);
-                    request.getSession().setAttribute(ATTR_COMMAND_TYPE, CommandType.REGISTER);
                     LOGGER.log(Level.INFO, "New user was registered. Login is: " + user.getLogin());
                     return PATH_JSP.getString("jsp.main");
                 case LOGIN_NOT_UNIQUE:

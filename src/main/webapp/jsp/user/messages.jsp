@@ -34,7 +34,7 @@
                 <c:forEach var="mess" items="${messages}">
                     <tr>
                         <c:choose>
-                            <c:when test="${mess.user.ID == conversation.user.ID}">
+                            <c:when test="${mess.user.userId == conversation.user.userId}">
                                 <td class="me">
                                     <span class="small red"><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${mess.date}"/>
                                         ${mess.user}</span><br> ${mess.text}

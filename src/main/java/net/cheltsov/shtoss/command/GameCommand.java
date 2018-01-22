@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,7 +31,7 @@ public class GameCommand implements Command {
 
         synchronized (request.getSession()) {
 
-            if (Command.isRepeat(request)) {
+            if (isRepeat(request)) {
                 return PATH_JSP.getString("jsp.start-game");
             }
 
@@ -62,7 +61,6 @@ public class GameCommand implements Command {
             List<Integer> moves;
             try {
                 moves = GameService.doGame(user, bid, card, deck);
-                request.getSession().setAttribute(ATTR_COMMAND_TYPE, CommandType.GAME);
             } catch (ServiceException e) {
                 LOGGER.catching(e);
                 request.setAttribute(ATTR_ERROR, rb.getString("mess.error.something-wrong"));

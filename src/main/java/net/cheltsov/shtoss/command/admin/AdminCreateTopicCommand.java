@@ -1,11 +1,9 @@
 package net.cheltsov.shtoss.command.admin;
 
 import net.cheltsov.shtoss.command.Command;
-import net.cheltsov.shtoss.command.CommandType;
 import net.cheltsov.shtoss.entity.Conversation;
 import net.cheltsov.shtoss.entity.User;
 import net.cheltsov.shtoss.exception.ServiceException;
-import net.cheltsov.shtoss.resource.BundleManager;
 import net.cheltsov.shtoss.service.ConversationService;
 import net.cheltsov.shtoss.service.UserService;
 import org.apache.logging.log4j.Level;
@@ -13,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.synth.ColorType;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -26,10 +23,11 @@ public class AdminCreateTopicCommand implements Command, AdminCommand {
     private static final String PARAM_TEXT = "text";
     private static final String PARAM_USER_LOGIN = "userLogin";
     private static final String ATTR_ERROR = "error";
+
     @Override
     public String execute(HttpServletRequest request) {
         synchronized (request.getSession()) {
-            if (Command.isRepeat(request)) {
+            if (isRepeat(request)) {
                 return new AdminInboxCommand().execute(request);
             }
 
@@ -51,9 +49,7 @@ public class AdminCreateTopicCommand implements Command, AdminCommand {
                 return new AdminInboxCommand().execute(request);
             }
             Optional<Conversation> shredingerConversation = ConversationService.createTopicByAdmin(topic, text, admin, userLogin);
-            if (shredingerConversation.isPresent()) {
-                request.getSession().setAttribute(ATTR_COMMAND_TYPE, CommandType.ADMIN_CREATE_TOPIC);
-            } else {
+            if (!shredingerConversation.isPresent()) {
                 request.setAttribute(ATTR_ERROR, rb.getString("mess.error.something-wrong"));
             }
         }

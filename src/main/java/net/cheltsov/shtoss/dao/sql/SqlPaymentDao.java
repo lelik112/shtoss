@@ -34,7 +34,8 @@ public class SqlPaymentDao extends SqlAbstractDao implements PaymentDao {
     private static SqlPaymentDao methodLevelPaymentDao = new SqlPaymentDao();
     private SqlPaymentDao() {
     }
-    public SqlPaymentDao(SqlInitializer initializer) {
+
+    SqlPaymentDao(SqlInitializer initializer) {
         super(initializer.getConnection());
         initializer.addDao(this);
     }
@@ -45,7 +46,7 @@ public class SqlPaymentDao extends SqlAbstractDao implements PaymentDao {
     public boolean  create (Payment payment) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_ADD_PAYMENT)){
-            ps.setInt(1, payment.getUserID());
+            ps.setInt(1, payment.getUserId());
             ps.setBigDecimal(2, payment.getAmount());
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {

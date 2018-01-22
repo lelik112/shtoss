@@ -41,7 +41,7 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
     private SqlUserDao() {
     }
 
-    public SqlUserDao(SqlInitializer initializer) {
+    SqlUserDao(SqlInitializer initializer) {
         super(initializer.getConnection());
         initializer.addDao(this);
     }
@@ -154,23 +154,18 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
     }
 
     public boolean isEmailFree(String email) throws DaoException {
-        Connection cn = getConnection();
-        try (PreparedStatement ps = cn.prepareStatement(SQL_FIND_USER_ID_BY_EMAIL)) {
-            ps.setString(1, email);
-            return !ps.executeQuery().next();
-        } catch (SQLException e) {
-            throw new DaoException("Problem with preparing statement", e);
-        } finally {
-            releaseConnectionIfLocal(cn);
-        }
+        return isNotExist(email, SQL_FIND_USER_ID_BY_EMAIL);
     }
 
     public boolean isLoginFree(String login) throws DaoException {
+        return isNotExist(login, SQL_FIND_USER_ID_BY_LOGIN);
+    }
+
+    private boolean isNotExist(String value, String query) throws DaoException {
         Connection cn = getConnection();
-        try (PreparedStatement ps = cn.prepareStatement(SQL_FIND_USER_ID_BY_LOGIN)) {
-            ps.setString(1, login);
-            boolean b = !ps.executeQuery().next();
-            return b;
+        try (PreparedStatement ps = cn.prepareStatement(query)) {
+            ps.setString(1, value);
+            return !ps.executeQuery().next();
         } catch (SQLException e) {
             throw new DaoException("Problem with preparing statement", e);
         } finally {
@@ -245,7 +240,7 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
 
     private User buildUser(ResultSet rs) throws SQLException {
         User user = new User();
-        user.setID(rs.getInt(DAO_USER_ID));
+        user.setUserId(rs.getInt(DAO_USER_ID));
         user.setLogin(rs.getString(DAO_USER_LOGIN));
         user.setEmail(rs.getString(DAO_USER_EMAIL));
         user.setBalance(rs.getBigDecimal(DAO_USER_BALANCE));

@@ -6,18 +6,18 @@ import java.util.Objects;
 
 public class News implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int newsID;
+    private int newsId;
     private User user;
     private String caption;
     private String text;
     private Date date;
 
-    public int getNewsID() {
-        return newsID;
+    public int getNewsId() {
+        return newsId;
     }
 
-    public void setNewsID(int newsID) {
-        this.newsID = newsID;
+    public void setNewsId(int newsId) {
+        this.newsId = newsId;
     }
 
     public User getUser() {
@@ -57,7 +57,7 @@ public class News implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         News news = (News) o;
-        return newsID == news.newsID &&
+        return newsId == news.newsId &&
                 Objects.equals(user, news.user) &&
                 Objects.equals(caption, news.caption) &&
                 Objects.equals(text, news.text) &&
@@ -67,13 +67,13 @@ public class News implements Serializable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(newsID, user, caption, text, date);
+        return Objects.hash(newsId, user, caption, text, date);
     }
 
     @Override
     public String toString() {
         return "News{" +
-                "newsID=" + newsID +
+                "newsId=" + newsId +
                 ", user=" + user +
                 ", caption='" + caption + '\'' +
                 ", text='" + text + '\'' +

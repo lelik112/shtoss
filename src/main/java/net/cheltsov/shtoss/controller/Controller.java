@@ -14,10 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
 public class Controller extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String ATTR_COMMAND_TYPE = "commandType";
     private static final String ATTR_RESPONSE = "response";
@@ -27,8 +28,6 @@ public class Controller extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-        System.out.println("Command: " + request.getAttribute("command"));
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,8 +37,8 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // TODO: 22.01.2018 Так можно? Или обязаельно парсить на случай форварда?
         Command command = ((CommandType) request.getAttribute(ATTR_COMMAND_TYPE)).getCommand();
-        // TODO: 07.12.2017 Защита от F5
         if (command instanceof Responsenable) request.setAttribute(ATTR_RESPONSE, response);
         String page = command.execute(request);
         if (page != null) {

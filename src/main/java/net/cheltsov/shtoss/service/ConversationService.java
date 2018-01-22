@@ -47,9 +47,9 @@ public class ConversationService {
             initializer = factory.getInitializer();
             initializer.setAutoCommit(false);
             ConversationDao conversationDao = factory.getConversationDao(initializer);
-            message.setConversationID(conversationDao.createConversation(conversation));
-            conversation.setConversationID(message.getConversationID());
-            message.setMessageID(conversationDao.findLastMessageID(message.getConversationID()) + 1);
+            message.setConversationId(conversationDao.createConversation(conversation));
+            conversation.setConversationId(message.getConversationId());
+            message.setMessageID(conversationDao.findLastMessageID(message.getConversationId()) + 1);
             message.setDate(new Date());
             conversationDao.addMessage(message);
             initializer.commit();
@@ -73,7 +73,7 @@ public class ConversationService {
 
     public static List<Conversation> findConversations(User user) throws ServiceException {
         try {
-            return factory.getConversationDao().findAllUserConversations(user.getID());
+            return factory.getConversationDao().findAllUserConversations(user.getUserId());
         } catch (DaoException e) {
             throw new ServiceException("Exception while finding conversations", e);
         }
@@ -82,7 +82,7 @@ public class ConversationService {
     public static Conversation findConversationByID(int conversationID, User user) throws ServiceException {
         try {
             Conversation conversation = factory.getConversationDao().findConversationByID(conversationID);
-            if (user.getRole() != User.Role.ADMIN && conversation.getUser().getID() != user.getID()) {
+            if (user.getRole() != User.Role.ADMIN && conversation.getUser().getUserId() != user.getUserId()) {
                 throw new ServiceException("Unauthorized access");
             }
             return conversation;
@@ -101,7 +101,7 @@ public class ConversationService {
 
     public static Optional<Message> addMessage(User user, Conversation conversation, String text) {
         Message message = new Message();
-        message.setConversationID(conversation.getConversationID());
+        message.setConversationId(conversation.getConversationId());
         message.setUser(user);
         message.setText(text);
         Initializer initializer = null;
@@ -109,7 +109,7 @@ public class ConversationService {
             initializer = factory.getInitializer();
             initializer.setAutoCommit(false);
             ConversationDao conversationDao = factory.getConversationDao(initializer);
-            message.setMessageID(conversationDao.findLastMessageID(conversation.getConversationID()) + 1);
+            message.setMessageID(conversationDao.findLastMessageID(conversation.getConversationId()) + 1);
             conversationDao.addMessage(message);
             message.setDate(new Date(System.currentTimeMillis()));
             initializer.close();

@@ -49,7 +49,7 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
 
     private SqlConversationDao(){}
 
-    public SqlConversationDao(SqlInitializer initializer) {
+    SqlConversationDao(SqlInitializer initializer) {
         super(initializer.getConnection());
         initializer.addDao(this);
     }
@@ -62,7 +62,7 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
     public int createConversation(Conversation conversation) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_CREATE_CONVERSATION, Statement.RETURN_GENERATED_KEYS)){
-            ps.setInt(1, conversation.getUser().getID());
+            ps.setInt(1, conversation.getUser().getUserId());
             ps.setString(2, conversation.getTopic());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
@@ -83,9 +83,9 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
     public boolean addMessage(Message message) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_ADD_MESSAGE)){
-            ps.setInt(1, message.getMessage_ID());
-            ps.setInt(2, message.getConversationID());
-            ps.setInt(3, message.getUser().getID());
+            ps.setInt(1, message.getMessageId());
+            ps.setInt(2, message.getConversationId());
+            ps.setInt(3, message.getUser().getUserId());
             ps.setString(4, message.getText());
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
@@ -137,9 +137,9 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
             Conversation conversation = new Conversation();
             User user = new User();
             if (rs.next()) {
-                conversation.setConversationID(conversationID);
+                conversation.setConversationId(conversationID);
                 conversation.setTopic(rs.getString(DAO_C_TOPIC));
-                user.setID(rs.getInt(DAO_C_USER_ID));
+                user.setUserId(rs.getInt(DAO_C_USER_ID));
                 user.setLogin(rs.getString(DAO_U_USER_LOGIN));
                 conversation.setUser(user);
             }
@@ -157,14 +157,14 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
             Conversation conversation = new Conversation();
             User conversationUser = new User();
             Message lastMessage = new Message();
-            conversation.setConversationID(rs.getInt(DAO_C_CONVERSATION_ID));
-            conversationUser.setID(rs.getInt(DAO_C_USER_ID));
+            conversation.setConversationId(rs.getInt(DAO_C_CONVERSATION_ID));
+            conversationUser.setUserId(rs.getInt(DAO_C_USER_ID));
             conversationUser.setLogin(rs.getString(DAO_U_USER_LOGIN));
             conversation.setUser(conversationUser);
             conversation.setTopic(rs.getString(DAO_C_TOPIC));
             User messageUser = new User();
             messageUser.setLogin(rs.getString(DAO_LAST_MESSAGE_LOGIN));
-            messageUser.setID(rs.getInt(DAO_LAST_MESSAGE_USER_ID));
+            messageUser.setUserId(rs.getInt(DAO_LAST_MESSAGE_USER_ID));
             lastMessage.setUser(messageUser);
             lastMessage.setDate(rs.getTimestamp(DAO_LAST_MESSAGE_TIME));
             lastMessage.setText(rs.getString(DAO_LAST_MESSAGE_TEXT));
@@ -194,8 +194,8 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
             Message message = new Message();
             User user = new User();
             message.setMessageID(rs.getInt(DAO_M_MESSAGE_ID));
-            message.setConversationID(rs.getInt(DAO_M_CONVERSATION_ID));
-            user.setID(rs.getInt(DAO_M_USER_ID));
+            message.setConversationId(rs.getInt(DAO_M_CONVERSATION_ID));
+            user.setUserId(rs.getInt(DAO_M_USER_ID));
             user.setLogin(rs.getString(DAO_U_USER_LOGIN));
             message.setUser(user);
             message.setText(rs.getString(DAO_M_TEXT));
