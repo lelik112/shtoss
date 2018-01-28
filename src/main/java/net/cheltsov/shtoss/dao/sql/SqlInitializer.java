@@ -3,6 +3,8 @@ package net.cheltsov.shtoss.dao.sql;
 import net.cheltsov.shtoss.dao.Initializer;
 import net.cheltsov.shtoss.database.ConnectionPool;
 import net.cheltsov.shtoss.exception.DaoException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SqlInitializer implements AutoCloseable, Initializer {
+    private static final Logger LOGGER = LogManager.getLogger();
     private Connection connection;
     private List<SqlAbstractDao> listDao = new ArrayList<>();
 
@@ -51,8 +54,7 @@ public class SqlInitializer implements AutoCloseable, Initializer {
         try {
             connection.rollback();
         } catch (SQLException e) {
-            e.printStackTrace(); // TODO: 14.12.2017 Логгер!! Выкидывать дальше?
-//            throw new DaoException("Problem with rollback", e);
+            LOGGER.catching(e);
         }
     }
 

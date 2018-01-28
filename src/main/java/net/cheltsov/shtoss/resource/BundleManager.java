@@ -11,7 +11,6 @@ public enum BundleManager {
     PATH_JSP(ResourceBundle.getBundle("properties/jsp")),
     DATABASE(ResourceBundle.getBundle("properties/connection"));
 
-
     private ResourceBundle bundle;
     BundleManager(ResourceBundle bundle) {
         this.bundle = bundle;

@@ -37,9 +37,10 @@ public class Controller extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // TODO: 22.01.2018 Так можно? Или обязаельно парсить на случай форварда?
         Command command = ((CommandType) request.getAttribute(ATTR_COMMAND_TYPE)).getCommand();
-        if (command instanceof Responsenable) request.setAttribute(ATTR_RESPONSE, response);
+        if (command instanceof Responsenable) {
+            request.setAttribute(ATTR_RESPONSE, response);
+        }
         String page = command.execute(request);
         if (page != null) {
             getServletContext().getRequestDispatcher(page).forward(request, response);

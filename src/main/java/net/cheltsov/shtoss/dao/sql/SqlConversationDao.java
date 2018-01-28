@@ -72,7 +72,6 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
                 return -1;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DaoException("Problem with preparing statement", e);
         } finally {
             releaseConnectionIfLocal(cn);
@@ -108,7 +107,6 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
             ResultSet  rs = ps.executeQuery();
             return buildConversations(rs);
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new DaoException("Problem with preparing statement", e);
         } finally {
             releaseConnectionIfLocal(cn);

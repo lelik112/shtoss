@@ -21,10 +21,7 @@ public class RoleFilter implements Filter {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String ATTR_COMMAND_TYPE = "commandType";
     private static final String ATTR_USER = "user";
-    @Override
-    public void init(FilterConfig filterConfig) {
 
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -46,10 +43,4 @@ public class RoleFilter implements Filter {
         filterChain.doFilter(request, response);
     }
 
-
-
-    @Override
-    public void destroy() {
-
-    }
 }

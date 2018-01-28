@@ -136,8 +136,11 @@ public class ConnectionPoolTest {
         for (int i = 0; i < instance.MAX_SIZE; i++) {
             connections.add(instance.getConnection());
         }
-        instance.getConnection();
-        connections.forEach(instance::releaseConnection);
+        try {
+            instance.getConnection();
+        } finally {
+            connections.forEach(instance::releaseConnection);
+        }
     }
 
     @Test(expectedExceptions = CloneNotSupportedException.class)

@@ -25,7 +25,7 @@ public abstract class SqlAbstractDao {
 
     Connection getConnection() throws DaoException {
         if (isClassLevel && connection == null) {
-            throw new DaoException("Class level DAO is closed");  // TODO: 13.12.2017 Нормально так бросать?
+            throw new DaoException("Class level DAO is closed");
         }
         return connection != null? connection: ConnectionPool.getInstance().getConnection();
     }
@@ -54,7 +54,7 @@ public abstract class SqlAbstractDao {
     }
 
     public boolean isClosed() {
-        return isClassLevel? connection == null: false; // TODO: 13.12.2017 Что лучше вернуть если уровень метода?
+        return isClassLevel && connection == null;
     }
 
     public boolean isClassLevel() {

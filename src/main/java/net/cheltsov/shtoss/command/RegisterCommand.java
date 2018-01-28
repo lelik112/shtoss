@@ -47,7 +47,7 @@ public class RegisterCommand implements Command {
                 if (!Validator.validateRegisterData(login, password, email)) {
                     LOGGER.log(Level.ERROR, "Registered data are not valid. Registered page is needed to be checked");
                     request.setAttribute(ATTR_ERROR_LOGIN_PASS, getCurrentBundle(request).getString("mess.error.something-wrong"));
-                    return PATH_JSP.getString("jsp.register"); // TODO: 07.01.2018 Еррор пейдж?
+                    return PATH_JSP.getString("jsp.register");
                 }
             }
 
@@ -58,7 +58,7 @@ public class RegisterCommand implements Command {
             } catch (ServiceException e) {
                 LOGGER.catching(e);
                 request.setAttribute(ATTR_ERROR_LOGIN_PASS, getCurrentBundle(request).getString("mess.error.something-wrong"));
-                return PATH_JSP.getString("jsp.register");// TODO: 07.01.2018 Еррор пейдж?
+                return PATH_JSP.getString("jsp.register");
             }
 
             ResourceBundle rb = getCurrentBundle(request);

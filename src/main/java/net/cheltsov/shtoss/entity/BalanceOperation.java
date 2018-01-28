@@ -7,10 +7,10 @@ import java.util.Objects;
 
 public class BalanceOperation implements Serializable {
     private static final long serialVersionUID = 1L;
-    BigDecimal amount;
-    String type;
-    Date date;
-    BigDecimal balance;
+    private BigDecimal amount;
+    private String type;
+    private Date date;
+    private BigDecimal balance;
 
     public BigDecimal getAmount() {
         return amount;

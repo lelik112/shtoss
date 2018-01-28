@@ -13,8 +13,6 @@ import java.util.ResourceBundle;
 
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
-// TODO: 14.12.2017 как разделять проблемы с данными и проблемы с сервисом?
-
 public class AddFundsCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String ATTR_USER = "user";

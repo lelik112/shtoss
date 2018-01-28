@@ -19,15 +19,6 @@ public class NewsService {
     private static final Logger LOGGER = LogManager.getLogger();
     private static AbstractDaoFactory factory = DaoManager.getDaoFactory();
 
-    // TODO: 29.12.2017 Убрать метод
-    public static List<News> findLastSomeNews(int countNews) throws ServiceException {
-        try {
-            return SqlNewsDao.getMethodLevelNewsDao().findSomeLastNews(countNews);
-        } catch (DaoException e) {
-            throw new ServiceException("Exception while finding last news", e);
-        }
-    }
-
     public static List<News> findLAllNews() throws ServiceException {
         try {
             return SqlNewsDao.getMethodLevelNewsDao().findAllNews();

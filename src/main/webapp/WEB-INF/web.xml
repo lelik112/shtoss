@@ -38,6 +38,7 @@
         <filter-name>PageFilter</filter-name>
         <url-pattern>/jsp/*</url-pattern>
     </filter-mapping>
+
     <filter>
         <filter-name>RepeatFilter</filter-name>
         <filter-class>net.cheltsov.shtoss.controller.RepeatFilter</filter-class>
@@ -46,6 +47,7 @@
         <filter-name>RepeatFilter</filter-name>
         <servlet-name>MainServlet</servlet-name>
     </filter-mapping>
+
     <filter>
         <filter-name>RoleFilter</filter-name>
         <filter-class>net.cheltsov.shtoss.controller.RoleFilter</filter-class>
@@ -66,6 +68,10 @@
         <listener-class>net.cheltsov.shtoss.controller.ShtossRequestListener</listener-class>
     </listener>
     <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/jsp/error/error.jsp</location>
+    </error-page>
+    <error-page>
         <error-code>403</error-code>
         <location>/jsp/error/error403.jsp</location>
     </error-page>
@@ -78,16 +84,11 @@
         <location>/jsp/error/error414.jsp</location>
     </error-page>
     <error-page>
-        <!--TODO перехватывается error-->
         <error-code>500</error-code>
         <location>/jsp/error/error500.jsp</location>
     </error-page>
     <error-page>
         <error-code>504</error-code>
         <location>/jsp/error/error504.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/jsp/error/error.jsp</location>
     </error-page>
 </web-app>

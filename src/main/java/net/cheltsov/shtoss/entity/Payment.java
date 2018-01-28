@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Payment implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int paymentId; // TODO: 14.12.2017 Можно тут int?
+    private int paymentId;
     private BigDecimal amount;
     private int userId;
     private Date date;

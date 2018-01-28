@@ -146,7 +146,7 @@ public class UserService {
             UserDao userDao = factory.getUserDao(initializer);
             userDao.updateRole(userToChange.getUserId(), newRole.ordinal());
             if (User.Role.ADMIN.equals(userToChange.getRole()) && userDao.countAdmin() < 1) {
-                initializer.rollback(); // TODO: 06.01.2018 проверить работоспособность
+                initializer.rollback();
                 return false;
             }
             initializer.commit();

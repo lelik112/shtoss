@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
-// TODO: 19.12.2017 ERROR PAGE N 500????
+
 public class GameCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String ATTR_USER = "user";

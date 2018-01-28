@@ -6,10 +6,10 @@ import java.util.Objects;
 
 public class UserRating implements Serializable {
     private static final long serialVersionUID = 1L;
-    String userLogin;
-    int allGames;
-    int winGames;
-    BigDecimal totalBid;
+    private String userLogin;
+    private int allGames;
+    private int winGames;
+    private BigDecimal totalBid;
 
     public String getUserLogin() {
         return userLogin;

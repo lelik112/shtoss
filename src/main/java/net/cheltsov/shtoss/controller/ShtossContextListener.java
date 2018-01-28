@@ -24,8 +24,6 @@ public class ShtossContextListener implements ServletContextListener {
     private static final String ATTR_DECK = "deck";
     private static final String ATTR_SUIT = "suit";
 
-    // TODO: 08.01.2018 Нормально все в одном методе?
-
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext servletContext = sce.getServletContext();

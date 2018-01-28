@@ -42,7 +42,7 @@ public final class ConnectionPool {
     private final AtomicInteger currentNumber;
     private final BlockingQueue<Connection> waitingConnections;
     private final ConcurrentHashMap<Connection, Long> occupiedConnections;
-    private final ScheduledExecutorService es = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
     private ConnectionPool() {
         if (instance != null) {
@@ -64,7 +64,7 @@ public final class ConnectionPool {
             throw new RuntimeException("Can't createUser connection pool", e);
         }
 
-        es.scheduleAtFixedRate(new PoolSizeChecker(), CHECKING_INTERVAL_MINUTES, CHECKING_INTERVAL_MINUTES, TimeUnit.MINUTES);
+        executorService.scheduleAtFixedRate(new PoolSizeChecker(), CHECKING_INTERVAL_MINUTES, CHECKING_INTERVAL_MINUTES, TimeUnit.MINUTES);
     }
 
     public static ConnectionPool getInstance() {
@@ -90,7 +90,7 @@ public final class ConnectionPool {
             }
 
             for (Connection c : occupiedConnections.keySet()) {
-                Long delta = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - occupiedConnections.get(c)); // TODO: 29.11.2017 change toMinutes
+                Long delta = TimeUnit.MINUTES.toMinutes(System.currentTimeMillis() - occupiedConnections.get(c));
                 if (delta > LOOSING_CONNECTION_INTERVAL_MINUTES) {
                     occupiedConnections.remove(c);
                     closeConnection(c);
@@ -153,8 +153,8 @@ public final class ConnectionPool {
 
         try {
             connection = waitingConnections.poll(WAIT_CONNECTION_SECONDS, TimeUnit.SECONDS);
-        } catch (InterruptedException ignore) {
-            /*NOP*/
+        } catch (InterruptedException e) {
+            LOGGER.catching(e);
         }
         if (connection != null) {
             return addToMapAndReturn(connection);
@@ -185,16 +185,29 @@ public final class ConnectionPool {
     }
 
     public int getCurrentSize() {
-        return waitingConnections.size() + occupiedConnections.size();
+        return currentNumber.get();
     }
 
     public void closePool() {
-        waitingConnections.forEach(this::closeConnection);
-        waitingConnections.clear();
-        occupiedConnections.keySet().forEach(this::closeConnection);
-        occupiedConnections.clear();
+        Connection connection;
+        while (currentNumber.get() > 0) {
+            try {
+                connection = waitingConnections.poll(60, TimeUnit.SECONDS);
+                if (connection != null) {
+                    closeConnection(connection);
+                } else {
+                    occupiedConnections.keySet()
+                            .stream()
+                            .filter(x -> occupiedConnections.remove(x) != null)
+                            .forEach(this::closeConnection);
+                }
+            } catch (InterruptedException e) {
+                LOGGER.catching(e);
+            }
+        }
+
         deregisterDriver();
-        es.shutdown();
+        executorService.shutdown();
         LOGGER.log(Level.INFO, "Pool closed");
     }
 

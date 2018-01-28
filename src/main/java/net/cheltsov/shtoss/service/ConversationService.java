@@ -9,7 +9,6 @@ import net.cheltsov.shtoss.entity.Message;
 import net.cheltsov.shtoss.entity.User;
 import net.cheltsov.shtoss.exception.DaoException;
 import net.cheltsov.shtoss.exception.ServiceException;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,7 +54,7 @@ public class ConversationService {
             initializer.commit();
             return Optional.of(conversation);
         } catch (DaoException e) {
-            LOGGER.log(Level.ERROR, "Exception while creating conversation", e);
+            LOGGER.catching(e);
             initializer.rollback();
             return Optional.empty();
         } finally {
