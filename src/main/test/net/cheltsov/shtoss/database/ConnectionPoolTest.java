@@ -1,8 +1,6 @@
 package net.cheltsov.shtoss.database;
 
 import net.cheltsov.shtoss.exception.DaoException;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.sql.Connection;
@@ -15,25 +13,21 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static net.cheltsov.shtoss.resource.BundleManager.DATABASE;
+import static org.testng.Assert.*;
 
 @Test(singleThreaded = true)
 public class ConnectionPoolTest {
-    private ConnectionPool instance;
-
-    @BeforeClass
-    public void init() throws Exception {
-        instance = ConnectionPool.getInstance();
-    }
+    private ConnectionPool instance = ConnectionPool.getInstance();
 
     @Test
     public void testGetInstanceNotNull() throws Exception {
-        Assert.assertNotNull(instance);
+        assertNotNull(instance);
     }
 
     @Test
     public void testGetInstanceSame() throws Exception {
         ConnectionPool actualInstance = ConnectionPool.getInstance();
-        Assert.assertSame(actualInstance, instance);
+        assertSame(actualInstance, instance);
     }
 
     @Test
@@ -49,7 +43,7 @@ public class ConnectionPoolTest {
         connections.forEach(instance::releaseConnection);
         connections.clear();
 
-        Assert.assertSame(actualConnection, expectedConnection);
+        assertSame(actualConnection, expectedConnection);
     }
 
     @Test
@@ -57,7 +51,7 @@ public class ConnectionPoolTest {
         Connection connection = instance.getConnection();
         connection.setAutoCommit(false);
         instance.releaseConnection(connection);
-        Assert.assertTrue(connection.getAutoCommit());
+        assertTrue(connection.getAutoCommit());
     }
 
     @Test
@@ -92,7 +86,7 @@ public class ConnectionPoolTest {
             }
         });
 
-        Assert.assertEquals(actualConnections, expectedConnections);
+        assertEquals(actualConnections, expectedConnections);
     }
 
     @Test
@@ -102,7 +96,7 @@ public class ConnectionPoolTest {
         int expectedSize = instance.getCurrentSize() - 1;
         instance.releaseConnection(connection);
         int actualSize = instance.getCurrentSize();
-        Assert.assertEquals(actualSize, expectedSize);
+        assertEquals(actualSize, expectedSize);
     }
 
     @Test(priority = -10)
@@ -120,14 +114,14 @@ public class ConnectionPoolTest {
             actualSizes.add(instance.getCurrentSize());
         }
         connections.forEach(instance::releaseConnection);
-        Assert.assertEquals(actualSizes, expectedSizes);
+        assertEquals(actualSizes, expectedSizes);
     }
 
     @Test
     public void testGetConnectionNotNull() throws Exception {
         Connection connection = instance.getConnection();
         instance.releaseConnection(connection);
-        Assert.assertNotNull(connection);
+        assertNotNull(connection);
     }
 
     @Test(expectedExceptions = DaoException.class, timeOut = 15 * 1000, priority = 9)
@@ -153,7 +147,7 @@ public class ConnectionPoolTest {
         instance.closePool();
         int expectedSize = 0;
         int actualSize = instance.getCurrentSize();
-        Assert.assertEquals(actualSize, expectedSize);
+        assertEquals(actualSize, expectedSize);
     }
 
 

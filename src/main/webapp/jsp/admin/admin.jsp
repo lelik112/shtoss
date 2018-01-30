@@ -41,7 +41,7 @@
                                 <td>${user.email}</td>
                                 <td>${user.balance}</td>
                                 <td><a title="${message["mess.button.change"]}"
-                                       href="<c:url value="${pageContext.request.contextPath}/controller?command=show-status&user-userId=${user.userId}" />">${user.role}</a>
+                                       href="<c:url value="${pageContext.request.contextPath}/controller?command=show-status&user-id=${user.userId}" />">${user.role}</a>
                                 </td>
                                 <td>${user.firstName}</td>
                                 <td>${user.lastName}</td>

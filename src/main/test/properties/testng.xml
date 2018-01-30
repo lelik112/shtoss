@@ -3,25 +3,15 @@
 <suite name="Shtoss">
 
     <test name="UnitTests">
-        <!--<groups>
-            <run>
-                <exclude name="general"/>
-            </run>
-        </groups>-->
         <classes>
+            <class name="net.cheltsov.shtoss.validator.ValidatorTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlInitializerTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlConversationDaoTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlGameDaoTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlNewsDaoTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlPaymentDaoTest"/>
+            <class name="net.cheltsov.shtoss.dao.sql.SqlUserDaoTest"/>
             <class name="net.cheltsov.shtoss.database.ConnectionPoolTest"/>
         </classes>
     </test>
-
-    <!--<test name="GeneralTest">
-        <groups>
-            <run>
-                <include name="general"/>
-            </run>
-        </groups>
-        <classes>
-            <class name=""/>
-        </classes>
-    </test>-->
-
 </suite>

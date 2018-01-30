@@ -39,6 +39,14 @@ public class SqlInitializer implements AutoCloseable, Initializer {
         }
     }
 
+    public boolean getAutoCommit() throws DaoException {
+        try {
+            return connection.getAutoCommit();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
+    }
+
     public void commit() throws DaoException {
         if (connection == null) {
             throw new DaoException("SqlInitializer is closed");

@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -22,10 +21,10 @@ public class ShowStatusCommand implements Command, AdminCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        int userID = Integer.parseInt(request.getParameter(PARAM_USER_ID));
+        int userId = Integer.parseInt(request.getParameter(PARAM_USER_ID));
         ResourceBundle rb = getCurrentBundle(request);
         try {
-            Optional<User> userToChange = UserService.findUserById(userID);
+            Optional<User> userToChange = UserService.findUserById(userId);
             if (userToChange.isPresent()) {
                 request.getSession().setAttribute(ATTR_USER_TO_CHANGE, userToChange.get());
                 return BundleManager.PATH_JSP.getString("jsp.change-status");

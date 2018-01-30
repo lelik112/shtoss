@@ -18,12 +18,12 @@ public class DeleteNewsCommand implements Command, AdminCommand {
     @Override
     public String execute(HttpServletRequest request) {
         synchronized (request.getSession()) {
-            int newsID = Integer.parseInt(request.getParameter(PARAM_NEWS_ID));
+            int newsId = Integer.parseInt(request.getParameter(PARAM_NEWS_ID));
             ServletContext context = request.getServletContext();
             synchronized (context) {
                 List<News> newsList = (List<News>) context.getAttribute(ATTR_NEWS);
-                if (NewsService.deleteNews(newsID)) {
-                    newsList.removeIf(x -> x.getNewsId() == newsID);
+                if (NewsService.deleteNews(newsId)) {
+                    newsList.removeIf(x -> x.getNewsId() == newsId);
                     request.setAttribute(ATTR_SUCCESS, getCurrentBundle(request).getString("mess.success.delete-news"));
                 } else {
                     request.setAttribute(ATTR_ERROR, getCurrentBundle(request).getString("mess.error.something-wrong"));

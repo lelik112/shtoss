@@ -8,6 +8,7 @@ import net.cheltsov.shtoss.entity.User;
 import net.cheltsov.shtoss.exception.DaoException;
 import net.cheltsov.shtoss.exception.ServiceException;
 import net.cheltsov.shtoss.validator.ValidationResult;
+import net.cheltsov.shtoss.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -164,8 +165,15 @@ public class UserService {
         UserDao userDao = factory.getUserDao();
         try {
             Optional<User> sameUser = authorize(user.getLogin(), password);
-            if (!sameUser.isPresent()) return PASSWORD_NOT_CORRECT;
-            if (!userDao.isEmailFree(email)) return EMAIL_NOT_UNIQUE;
+            if (!sameUser.isPresent()) {
+                return PASSWORD_NOT_CORRECT;
+            }
+            if (!userDao.isEmailFree(email)) {
+                return EMAIL_NOT_UNIQUE;
+            }
+            if (!Validator.validateEmail(email)) {
+                return EMAIL_NOT_MATCH;
+            }
             if (userDao.updateEmail(email, user.getUserId())) {
                 user.setEmail(email);
                 return ALL_RIGHT;

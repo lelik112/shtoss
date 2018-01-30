@@ -54,7 +54,7 @@
                                 <form id="edit${i.count}" method="POST"
                                       action="<c:url value="${pageContext.request.contextPath}/controller" />">
                                     <input type="hidden" name="command" value="edit-news"/>
-                                    <input type="hidden" name="news-userId" value="${newsOne.newsId}"/>
+                                    <input type="hidden" name="news-id" value="${newsOne.newsId}"/>
                                     <div class="form-group">
                                         <label for="topic${i.count}">${message["mess.label.topic"]}</label>
                                         <input id="topic${i.count}" class="form-control" type="text" name="topic"
@@ -70,7 +70,7 @@
                                 <form id="delete${i.count}" method="POST"
                                       action="<c:url value="${pageContext.request.contextPath}/controller" />">
                                     <input type="hidden" name="command" value="delete-news"/>
-                                    <input type="hidden" name="news-userId" value="${newsOne.newsId}"/>
+                                    <input type="hidden" name="news-id" value="${newsOne.newsId}"/>
                                 </form>
 
                             </div>

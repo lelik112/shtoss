@@ -5,7 +5,6 @@ import net.cheltsov.shtoss.service.UserService;
 import net.cheltsov.shtoss.validator.ValidationResult;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.ResourceBundle;
 
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
@@ -43,6 +42,10 @@ public class ChangeEmailCommand implements Command {
                     break;
                 case EMAIL_NOT_UNIQUE:
                     request.setAttribute(ATTR_ERROR_EMAIL_CHANGE, rb.getString("mess.error.email"));
+                    break;
+                case EMAIL_NOT_MATCH:
+                    request.setAttribute(ATTR_ERROR_EMAIL_CHANGE, rb.getString("mess.error.email-notmatch"));
+                    request.setAttribute(ATTR_EMAIL, email);
                     break;
                 case SERVICE_ERROR:
                     request.setAttribute(ATTR_ERROR_EMAIL_CHANGE, rb.getString("mess.error.something-wrong"));

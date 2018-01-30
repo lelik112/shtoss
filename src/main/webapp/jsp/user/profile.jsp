@@ -49,7 +49,7 @@
                     </form>
 
                 </div>
-                <div userId="menu1" class="tab-pane fade">
+                <div id="menu1" class="tab-pane fade">
 
                     <form method="POST" action="<c:url value="${pageContext.request.contextPath}/controller" />">
                         <input type="hidden" name="command" value="change-password"/>

@@ -18,7 +18,6 @@
             <a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.start-game" />">
                 ${message["mess.label.start-game"]}
             </a>
-            <hr>
         </div>
     </div>
 </div>
