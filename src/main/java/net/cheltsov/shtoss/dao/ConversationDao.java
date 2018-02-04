@@ -5,16 +5,23 @@ import net.cheltsov.shtoss.entity.Message;
 import net.cheltsov.shtoss.exception.DaoException;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Provides methods to access data base for <tt>Conversation</tt> class
+ */
 public interface ConversationDao {
     int createConversation(Conversation conversation) throws DaoException;
-    boolean addMessage(Message message) throws DaoException;
-    int findLastMessageID(int conversationID) throws DaoException;
-    List<Conversation> findAllUserConversations(int userID) throws DaoException;
-    List<Conversation> findAllConversations() throws DaoException;
-    Conversation findConversationByID(int conversationID) throws DaoException;
-    List<Message> findAllConversationMessages(int conversationID) throws DaoException;
 
+    boolean addMessage(Message message) throws DaoException;
+
+    int findLastMessageId(int conversationId) throws DaoException;
+
+    List<Conversation> findAllUserConversations(int userId) throws DaoException;
+
+    List<Conversation> findAllConversations() throws DaoException;
+
+    Conversation findConversationById(int conversationId) throws DaoException;
+
+    List<Message> findAllConversationMessages(int conversationId) throws DaoException;
 
 }

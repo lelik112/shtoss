@@ -1,5 +1,6 @@
 package net.cheltsov.shtoss.entity;
 
+
 public enum Suit {
     SPADES(0x2664), HEARTS(0x2661), DIAMONDS(0x2662), CLUBS(0x2667);
 
@@ -9,7 +10,7 @@ public enum Suit {
         this.code = code;
     }
 
-    public String getHtmlCode() {
-        return "&#" + code + ';';
+    public String getCode() {
+        return 'x' + Integer.toHexString(code);
     }
 }

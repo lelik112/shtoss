@@ -44,7 +44,8 @@
         <div class="bg-warning">${wrongAction}</div>
         <button class="btn btn-default" type="submit">${message["mess.button.register"]}</button>
         <br/>
-        <a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=login" />">
+        <a class="btn btn-link"
+           href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.login" />">
             ${message["mess.label.login"]}
         </a>
     </form>

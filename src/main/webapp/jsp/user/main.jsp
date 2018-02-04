@@ -16,7 +16,7 @@
         </div>
         <div class="col-sm-9 text-left">
             <a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.start-game" />">
-                ${message["mess.label.start-game"]}
+                <span class="card-class">${message["mess.label.start-game"]}</span>
             </a>
         </div>
     </div>

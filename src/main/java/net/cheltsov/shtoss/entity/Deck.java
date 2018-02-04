@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 public enum Deck {
     SMALL(6), BIG(2);
+
     private static final int PLAYING_CARD_BACK = 0x1F0A0;
     private static final int NUMBER_OF_SUIT = 4;
     private static final int STEP = 16;

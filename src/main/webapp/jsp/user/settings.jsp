@@ -19,16 +19,20 @@
             <form method="POST" action="<c:url value="${pageContext.request.contextPath}/controller" />">
                 <input type="hidden" name="command" value="change-suit"/>
                 <div class="radio">
-                    <label><input type="radio" name="suit" value="spades" <c:if test="${suit eq 'SPADES'}">checked</c:if>>	&spades;</label>
+                    <label class="x1f0a"><input type="radio" name="suit" value="spades"
+                                                <c:if test="${suit eq 'SPADES'}">checked</c:if>> &spades;</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="suit" value="hearts" <c:if test="${suit eq 'HEARTS'}">checked</c:if>>	&hearts;</label>
+                    <label class="x1f0b"><input type="radio" name="suit" value="hearts"
+                                                <c:if test="${suit eq 'HEARTS'}">checked</c:if>> &hearts;</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="suit" value="diamonds" <c:if test="${suit eq 'DIAMONDS'}">checked</c:if>>	&diams;</label>
+                    <label class="x1f0c"><input type="radio" name="suit" value="diamonds"
+                                                <c:if test="${suit eq 'DIAMONDS'}">checked</c:if>> &diams;</label>
                 </div>
                 <div class="radio">
-                    <label><input type="radio" name="suit" value="clubs" <c:if test="${suit eq 'CLUBS'}">checked</c:if>>	&clubs;</label>
+                    <label class="x1f0d"><input class="x1f0d" type="radio" name="suit" value="clubs"
+                                                <c:if test="${suit eq 'CLUBS'}">checked</c:if>> &clubs;</label>
                 </div>
                 <button class="btn btn-default" type="submit">${message["mess.button.change"]}</button>
             </form>

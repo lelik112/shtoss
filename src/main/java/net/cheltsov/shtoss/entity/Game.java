@@ -50,8 +50,12 @@ public class Game implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Game game = (Game) o;
         return gameId == game.gameId &&
                 userId == game.userId &&

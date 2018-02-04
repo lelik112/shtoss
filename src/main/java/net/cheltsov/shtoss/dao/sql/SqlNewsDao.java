@@ -11,7 +11,6 @@ import java.util.List;
 
 public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
     private static final String DAO_NEWS_ID = "news_id";
-    private static final String DAO_USER_ID = "user_id";
     private static final String DAO_U_USER_ID = "u.user_id";
     private static final String DAO_USER_LOGIN = "login";
     private static final String DAO_NEWS_CAPTION = "caption";
@@ -37,20 +36,6 @@ public class SqlNewsDao extends SqlAbstractDao implements NewsDao {
 
     public static SqlNewsDao getMethodLevelNewsDao() {
         return methodLevelNewsDao;
-    }
-
-    @Override
-    public List<News> findSomeLastNews(int countNews) throws DaoException {
-        Connection cn = getConnection();
-        try (PreparedStatement ps = cn.prepareStatement(SQL_FIND_SOME_LAST_NEWS)) {
-            ps.setInt(1, countNews);
-            ResultSet rs = ps.executeQuery();
-            return buildNews(rs);
-        } catch (SQLException e) {
-            throw new DaoException("Problem with preparing statement", e);
-        } finally {
-            releaseConnectionIfLocal(cn);
-        }
     }
 
     @Override

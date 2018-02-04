@@ -44,8 +44,12 @@ public class Conversation implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Conversation that = (Conversation) o;
         return conversationId == that.conversationId &&
                 Objects.equals(topic, that.topic) &&

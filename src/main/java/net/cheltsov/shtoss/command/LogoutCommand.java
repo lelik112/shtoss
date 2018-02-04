@@ -2,13 +2,13 @@ package net.cheltsov.shtoss.command;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
-
 public class LogoutCommand implements Command {
+    private static final String ATTR_REDIRECT = "redirect";
+    private static final String REDIRECT_NEXT_PAGE_INDEX = "jsp.index";
     @Override
     public String execute(HttpServletRequest request) {
         request.getSession().invalidate();
-        return PATH_JSP.getBundle().getString("jsp.login");
-
+        request.setAttribute(ATTR_REDIRECT, true);
+        return REDIRECT_NEXT_PAGE_INDEX;
     }
 }

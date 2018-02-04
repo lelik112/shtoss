@@ -95,7 +95,7 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
     }
 
     @Override
-    public int findLastMessageID(int conversationID) throws DaoException {
+    public int findLastMessageId(int conversationID) throws DaoException {
         return findIntByInt(SQL_FIND_LAST_MESSAGE_ID, conversationID);
     }
 
@@ -127,7 +127,7 @@ public class SqlConversationDao extends SqlAbstractDao implements ConversationDa
     }
 
     @Override
-    public Conversation findConversationByID(int conversationID) throws DaoException {
+    public Conversation findConversationById(int conversationID) throws DaoException {
         Connection cn = getConnection();
         try (PreparedStatement ps = cn.prepareStatement(SQL_FIND_CONVERSATION_BY_ID)) {
             ps.setInt(1, conversationID);

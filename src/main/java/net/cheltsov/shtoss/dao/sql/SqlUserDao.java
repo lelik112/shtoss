@@ -173,16 +173,22 @@ public class SqlUserDao extends SqlAbstractDao implements UserDao {
         }
     }
 
-    public boolean createUser(User user) throws DaoException {
+    public int createUser(User user) throws DaoException {
         Connection cn = getConnection();
-        try (PreparedStatement ps = cn.prepareStatement(SQL_ADD_USER)) {
+        try (PreparedStatement ps = cn.prepareStatement(SQL_ADD_USER, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
             ps.setInt(4, user.getRole().ordinal());
             ps.setString(5, user.getFirstName());
             ps.setString(6, user.getLastName());
-            return ps.executeUpdate() == 1;
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
         } catch (SQLException e) {
             throw new DaoException("Problem with preparing statement", e);
         } finally {

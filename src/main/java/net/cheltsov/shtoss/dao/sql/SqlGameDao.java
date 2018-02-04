@@ -36,7 +36,7 @@ public class SqlGameDao extends SqlAbstractDao implements GameDao {
     }
 
     @Override
-    public int findLastGameID(int userID) throws DaoException {
+    public int findLastGameId(int userID) throws DaoException {
         return findIntByInt(SQL_FIND_LAST_GAME_ID, userID);
     }
 

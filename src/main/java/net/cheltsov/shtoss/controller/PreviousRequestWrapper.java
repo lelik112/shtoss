@@ -6,9 +6,16 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
+/**
+ * RequestWrapper implementation for executing command from different parameterMap
+ */
 public class PreviousRequestWrapper extends HttpServletRequestWrapper {
     private Map<String, String[]> parameterMap;
 
+    /**
+     * @param request      original HttpServletRequest
+     * @param parameterMap a Map for substitution
+     */
     public PreviousRequestWrapper(HttpServletRequest request, Map<String, String[]> parameterMap) {
         super(request);
         this.parameterMap = parameterMap;

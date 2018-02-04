@@ -23,12 +23,12 @@ public class ShowMessagesCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(ATTR_USER);
-        int conversationID = Integer.parseInt(request.getParameter(PARAM_CONVERSATIONS_ID));
+        int conversationId = Integer.parseInt(request.getParameter(PARAM_CONVERSATIONS_ID));
 
         try {
-            Conversation conversation = ConversationService.findConversationByID(conversationID, user);
+            Conversation conversation = ConversationService.findConversationById(conversationId, user);
             request.getSession().setAttribute(ATTR_CONVERSATION, conversation);
-            request.getSession().setAttribute(ATTR_MESSAGES, ConversationService.findMessages(conversationID));
+            request.getSession().setAttribute(ATTR_MESSAGES, ConversationService.findMessages(conversationId));
         } catch (ServiceException e) {
             LOGGER.log(Level.ERROR, e);
             ResourceBundle rb = getCurrentBundle(request);

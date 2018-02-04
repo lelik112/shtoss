@@ -30,12 +30,14 @@ table {
     color: green;
 }
 
+.result-class {
+    font-size: 19px;
+
+}
 .card-class{
     font-family: Symbola, "DejaVu Sans", "Times New Roman", serif;
     font-size: 69px;
 }
-
-.row.content {height: 450px}
 
 .sidenav {
     padding-top: 20px;
@@ -43,6 +45,18 @@ table {
     height: 100%;
     overflow: auto;
     text-align: left;
+}
+
+.x1f0b, .x1f0c, .x2661, .x2662 {
+    color: red;
+}
+
+.x1f0a, .x1f0d, .x2664, .x2667 {
+    color: black;
+}
+
+.row.content {
+    height: 450px
 }
 
 footer {

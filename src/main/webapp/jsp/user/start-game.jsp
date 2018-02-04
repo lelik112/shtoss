@@ -16,7 +16,7 @@
             <%@ include file="/jsp/common/news.jspf" %>
         </div>
         <div class="col-sm-9 text-left">
-            <div class="bg-danger">${wrongAction}</div>
+            <div class="bg-danger">${error}</div>
             <form method="POST" action="<c:url value="${pageContext.request.contextPath}/controller" />">
                 <input type="hidden" name="command" value="game">
                 <div class="form-group">
@@ -28,7 +28,7 @@
                     <label for="card">${message["mess.label.card"]}</label>
                     <select class="form-control" name="card" id="card">
                         <c:forEach var="card" items="${deck.getUserDeck(suit)}">
-                            <option class="card-class" value="${card}">&#${card};</option>
+                            <option class="card-class ${suit.code}" value="${card}">&#${card};</option>
                         </c:forEach>
                     </select>
                 </div>

@@ -10,17 +10,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Abstract root class for classes that provide access to the database
+ */
 public abstract class SqlAbstractDao {
     protected static final Logger LOGGER = LogManager.getRootLogger();
     private Connection connection;
     private boolean isClassLevel;
 
-       SqlAbstractDao(Connection connection) {
+    SqlAbstractDao(Connection connection) {
         this.connection = connection;
         isClassLevel = true;
     }
 
-    public SqlAbstractDao() {
+    SqlAbstractDao() {
     }
 
     Connection getConnection() throws DaoException {

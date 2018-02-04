@@ -13,10 +13,20 @@ import org.apache.logging.log4j.Logger;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * A service layer class implementing all the logic concerning payments
+ */
 public class PaymentService {
     private static final Logger LOGGER = LogManager.getLogger();
     private static AbstractDaoFactory factory = DaoManager.getDaoFactory();
 
+    /**
+     * Adds money to the user balance
+     *
+     * @param user   the user which balance are updated
+     * @param amount the amount of payment
+     * @return <tt>true</tt> if updating was successful, <tt>false</tt> otherwise
+     */
     public static boolean addFunds(User user, BigDecimal amount) {
         Payment payment = new Payment();
         payment.setAmount(amount);
@@ -45,6 +55,13 @@ public class PaymentService {
         return true;
     }
 
+    /**
+     * Finds all user's operations
+     *
+     * @param user the user whose operations are needed to be found
+     * @return the list of operations of the user
+     * @throws ServiceException if any exceptions occurred on the DAO layer
+     */
     public static List<BalanceOperation> findUserOperations(User user) throws ServiceException {
         try {
             return factory.getPaymentDao().findUserOperations(user.getUserId());

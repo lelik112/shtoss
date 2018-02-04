@@ -24,7 +24,8 @@
         <div class="bg-danger">${nullPage}</div>
         <button class="btn btn-default" type="submit">${message["mess.button.login"]}</button>
         <br/>
-        <a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=register" />">
+        <a class="btn btn-link"
+           href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.register" />">
             ${message["mess.label.register"]}
         </a>
     </form>

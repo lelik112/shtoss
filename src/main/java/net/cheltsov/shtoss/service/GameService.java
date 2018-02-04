@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+/**
+ * A service layer class implementing all the logic concerning games
+ */
 public class GameService {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -24,7 +28,17 @@ public class GameService {
     private static final int PLAYING_CARD_BACK = 0x1F0A0;
     private static AbstractDaoFactory factory = DaoManager.getDaoFactory();
 
-    public static List<Integer> doGame(User user, BigDecimal bid, int card, Deck deck) throws ServiceException {
+    /**
+     * Creates an act of the game.
+     *
+     * @param user user to play
+     * @param bid  the bid of game
+     * @param card user's card
+     * @param deck user's deck
+     * @return the list of the string representation code points of gaming cards
+     * @throws ServiceException if any exceptions occurred on the DAO layer
+     */
+    public static List<String> doGame(User user, BigDecimal bid, int card, Deck deck) throws ServiceException {
         card = card & (STEP - 1);
         List<Integer> moves = giveOutCards(card, deck);
         Game game = new Game();
@@ -40,7 +54,7 @@ public class GameService {
             initializer.setAutoCommit(false);
             GameDao gameDao = factory.getGameDao(initializer);
             UserDao userDao = factory.getUserDao(initializer);
-            game.setGameId(gameDao.findLastGameID(user.getUserId()) + 1);
+            game.setGameId(gameDao.findLastGameId(user.getUserId()) + 1);
             gameDao.create(game);
             userDao.updateBalance(game.getBid(), user.getUserId());
             initializer.commit();
@@ -52,7 +66,7 @@ public class GameService {
             initializer.close();
         }
         user.setBalance(user.getBalance().add(game.getBid()));
-        return moves;
+        return moves.stream().map(Integer::toHexString).map(x -> 'x' + x).collect(Collectors.toList());
     }
 
     private static List<Integer> giveOutCards(int card, Deck deck) throws ServiceException {
@@ -64,13 +78,23 @@ public class GameService {
             throw new ServiceException("The card does not contain in the deck");
         }
         while ((current & (STEP - 1)) != card) {
-            current = cards.stream().skip(r.nextInt(cards.size())).findFirst().orElse(-1);
+            current = cards
+                    .stream()
+                    .skip(r.nextInt(cards.size()))
+                    .findFirst()
+                    .orElse(-1);
             moves.add(current + PLAYING_CARD_BACK);
             cards.remove(current);
         }
         return moves;
     }
 
+    /**
+     * Finds ratings of users
+     *
+     * @return the list of ratings
+     * @throws ServiceException if any exceptions occurred on the DAO layer
+     */
     public static List<UserRating> findRating() throws ServiceException {
         try {
             return factory.getGameDao().findRating();

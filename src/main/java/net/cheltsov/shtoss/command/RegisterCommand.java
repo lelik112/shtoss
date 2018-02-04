@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
-public class RegisterCommand implements Command {
+public class RegisterCommand implements Command, GuestCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_ATTR_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
@@ -23,6 +23,7 @@ public class RegisterCommand implements Command {
     private static final String PARAM_ATTR_LAST_NAME = "lastName";
     private static final String ATTR_USER = "user";
     private static final String ATTR_ERROR_LOGIN_PASS = "errorLoginPassMessage";
+    private static final String ATTR_REPEATING_OR_REDIRECT = "repeating";
 
 
     @Override
@@ -47,6 +48,7 @@ public class RegisterCommand implements Command {
                 if (!Validator.validateRegisterData(login, password, email)) {
                     LOGGER.log(Level.ERROR, "Registered data are not valid. Registered page is needed to be checked");
                     request.setAttribute(ATTR_ERROR_LOGIN_PASS, getCurrentBundle(request).getString("mess.error.something-wrong"));
+                    request.setAttribute(ATTR_REPEATING_OR_REDIRECT, true);
                     return PATH_JSP.getString("jsp.register");
                 }
             }
@@ -58,6 +60,7 @@ public class RegisterCommand implements Command {
             } catch (ServiceException e) {
                 LOGGER.catching(e);
                 request.setAttribute(ATTR_ERROR_LOGIN_PASS, getCurrentBundle(request).getString("mess.error.something-wrong"));
+                request.setAttribute(ATTR_REPEATING_OR_REDIRECT, true);
                 return PATH_JSP.getString("jsp.register");
             }
 
@@ -77,10 +80,15 @@ public class RegisterCommand implements Command {
                     request.setAttribute(PARAM_ATTR_LOGIN, login);
                     break;
             }
-            if (firstName != null) request.setAttribute(PARAM_ATTR_FIRST_NAME, firstName);
-            if (lastName != null) request.setAttribute(PARAM_ATTR_LAST_NAME, lastName);
+            if (firstName != null) {
+                request.setAttribute(PARAM_ATTR_FIRST_NAME, firstName);
+            }
+            if (lastName != null) {
+                request.setAttribute(PARAM_ATTR_LAST_NAME, lastName);
+            }
             request.setAttribute(ATTR_ERROR_LOGIN_PASS, message);
         }
+        request.setAttribute(ATTR_REPEATING_OR_REDIRECT, true);
         return PATH_JSP.getString("jsp.register");
     }
 }

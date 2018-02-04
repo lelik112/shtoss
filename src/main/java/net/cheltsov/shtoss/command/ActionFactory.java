@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 public class ActionFactory {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * @param command String representation of command type
+     * @return CommandType defined in String representation
+     */
     public static CommandType defineCommand(String command) {
         if (command == null) {
             return CommandType.UNDEFINED;

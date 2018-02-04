@@ -22,26 +22,60 @@ import static net.cheltsov.shtoss.resource.BundleManager.DATABASE;
 
 public final class ConnectionPool {
 
+    /**
+     * Minimum number of connection which can exist
+     */
     public final int MIN_SIZE = 10;
+    /**
+     * Maximum number of connection which can exist
+     */
     public final int MAX_SIZE = 50;
+    /**
+     * The number of connection which pool expands of
+     */
     public final int EXTENSION_SIZE = 10;
 
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final AtomicBoolean instanceCreated = new AtomicBoolean(false);
     private static final Lock lock = new ReentrantLock();
+    /**
+     * The only instance of pool of connections
+     */
     private static ConnectionPool instance;
 
     private final String DB_URI_VALUE;
     private final Properties properties;
 
+    /**
+     * The time of waiting a connection in seconds before an Exception be thrown
+     */
     private final int WAIT_CONNECTION_SECONDS = 10;
+    /**
+     * The period of time in minutes after expiring which the connection is lost
+     */
     private final int LOOSING_CONNECTION_INTERVAL_MINUTES = 10;
+    /**
+     * The period of time in minutes of checking losing connections
+     */
     private final int CHECKING_INTERVAL_MINUTES = 30;
 
+    /**
+     * Current size of pool
+     */
     private final AtomicInteger currentNumber;
+    /**
+     * The queue of available connections
+     */
     private final BlockingQueue<Connection> waitingConnections;
+    /**
+     * The map of connections which are currently used. The values of map are time stamps of getting
+     * connection from pool
+     */
     private final ConcurrentHashMap<Connection, Long> occupiedConnections;
+    /**
+     * The executor service to periodically check of losing connection
+     */
     private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
     private ConnectionPool() {
@@ -67,6 +101,9 @@ public final class ConnectionPool {
         executorService.scheduleAtFixedRate(new PoolSizeChecker(), CHECKING_INTERVAL_MINUTES, CHECKING_INTERVAL_MINUTES, TimeUnit.MINUTES);
     }
 
+    /**
+     * @return the only instance this class
+     */
     public static ConnectionPool getInstance() {
         if (!instanceCreated.get()) {
             lock.lock();
@@ -82,6 +119,9 @@ public final class ConnectionPool {
         return instance;
     }
 
+    /**
+     * The Runnable implementation for checker of losing connection thread
+     */
     private class PoolSizeChecker implements Runnable {
         @Override
         public void run() {
@@ -113,6 +153,11 @@ public final class ConnectionPool {
         }
     }
 
+    /**
+     * Releases a connection to pool for reuse
+     *
+     * @param connection to be reuse
+     */
     public void releaseConnection(Connection connection) {
         if (connection == null || occupiedConnections.remove(connection) == null) {
             return;
@@ -132,6 +177,16 @@ public final class ConnectionPool {
         }
     }
 
+    /**
+     * Gets connection from queue. If queue is empty and current size of pool less then
+     * maximum size the method extends the pool by EXTENSION_SIZE but not more than
+     * (MAX_SIZE - currentNumber). If (MAX_SIZE = currentNumber) the method waits
+     * for releasing connections but not more than WAIT_CONNECTION_SECONDS seconds.
+     * The DaoException will be thrown after that
+     *
+     * @return connection to data base
+     * @throws DaoException if period of waiting connection is expired
+     */
     public Connection getConnection() throws DaoException {
         Connection connection = waitingConnections.poll();
         if (connection != null) {
@@ -184,10 +239,17 @@ public final class ConnectionPool {
         return connection;
     }
 
+    /**
+     *
+     * @return current size of connection pool
+     */
     public int getCurrentSize() {
         return currentNumber.get();
     }
 
+    /**
+     * Closes connection pool
+     */
     public void closePool() {
         Connection connection;
         while (currentNumber.get() > 0) {

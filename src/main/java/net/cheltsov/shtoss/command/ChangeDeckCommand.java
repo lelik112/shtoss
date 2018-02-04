@@ -1,9 +1,6 @@
 package net.cheltsov.shtoss.command;
 
 import net.cheltsov.shtoss.entity.Deck;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +20,9 @@ public class ChangeDeckCommand implements Command, Responsenable {
             Deck currentDeck = (Deck) request.getSession().getAttribute(PARAM_ATTR_DECK);
             currentDeck = currentDeck != null ? currentDeck : (Deck) request.getServletContext().getAttribute(PARAM_ATTR_DECK);
             Deck newDeck = Deck.valueOf(request.getParameter(PARAM_ATTR_DECK).trim().toUpperCase());
-            if (currentDeck == newDeck) return PATH_JSP.getString("jsp.settings");
-
+            if (currentDeck == newDeck) {
+                return PATH_JSP.getString("jsp.settings");
+            }
             request.getSession().setAttribute(PARAM_ATTR_DECK, newDeck);
             Cookie cookie = new Cookie(PARAM_ATTR_DECK, newDeck.toString());
             cookie.setMaxAge(60 * 60 * 24 * 365);

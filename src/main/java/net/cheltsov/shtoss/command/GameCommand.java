@@ -26,13 +26,18 @@ public class GameCommand implements Command {
     private static final String PARAM_ATTR_CARD = "card";
     private static final String ATTR_DECK = "deck";
     private static final String ATTR_ERROR = "error";
+    private static final String ATTR_REDIRECT = "redirect";
+    private static final String REDIRECT_NEXT_PAGE_MAIN = "jsp.main";
+
+
     @Override
     public String execute(HttpServletRequest request) {
 
         synchronized (request.getSession()) {
 
             if (isRepeat(request)) {
-                return PATH_JSP.getString("jsp.start-game");
+                request.setAttribute(ATTR_REDIRECT, true);
+                return REDIRECT_NEXT_PAGE_MAIN;
             }
 
             User user = (User) request.getSession().getAttribute(ATTR_USER);
@@ -58,7 +63,7 @@ public class GameCommand implements Command {
                 return PATH_JSP.getString("jsp.start-game");
             }
 
-            List<Integer> moves;
+            List<String> moves;
             try {
                 moves = GameService.doGame(user, bid, card, deck);
             } catch (ServiceException e) {
@@ -67,7 +72,7 @@ public class GameCommand implements Command {
                 return PATH_JSP.getString("jsp.start-game");
             }
             request.setAttribute(ATTR_RESULT, moves);
-            request.setAttribute(PARAM_ATTR_CARD, card);
+            request.setAttribute(PARAM_ATTR_CARD, 'x' + Integer.toHexString(card));
             request.setAttribute(PARAM_ATTR_BID, bid);
         }
         return PATH_JSP.getString("jsp.result-game");

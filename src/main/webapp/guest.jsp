@@ -8,11 +8,13 @@
 <body>
 <h2>${message["mess.h.welcom"]}</h2>
 <p>${message["mess.info.guest"]}</p>
-<a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=register" />">
+<a class="btn btn-link"
+   href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.register" />">
     ${message["mess.label.register"]}
 </a>
 <br/>
-<a class="btn btn-link" href="<c:url value="${pageContext.request.contextPath}/controller?command=login" />">
+<a class="btn btn-link"
+   href="<c:url value="${pageContext.request.contextPath}/controller?command=redirect&nextPage=jsp.login" />">
     ${message["mess.label.login"]}
 </a>
 </body>

@@ -32,8 +32,8 @@ public class CreateTopicCommand implements Command {
                 request.getSession().setAttribute(ATTR_CONVERSATIONS, conversations);
             }
             Optional<Conversation> shredingerConversation = ConversationService.createTopicByUser(topic, text, user);
-            shredingerConversation.ifPresent(conversations::add);
             if (shredingerConversation.isPresent()) {
+                conversations.add(0, shredingerConversation.get());
             } else {
                 ResourceBundle rb = getCurrentBundle(request);
                 request.setAttribute(ATTR_ERROR, rb.getString("mess.error.something-wrong"));

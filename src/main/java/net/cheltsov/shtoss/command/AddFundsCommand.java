@@ -20,13 +20,16 @@ public class AddFundsCommand implements Command {
     private static final String CONGRATULATION = "congratulation";
     private static final String SUCCESS = "success";
     private static final String NOT_SUCCESS = "notSuccess";
+    private static final String ATTR_REDIRECT = "redirect";
+    private static final String REDIRECT_NEXT_PAGE_MAIN = "jsp.main";
 
 
     @Override
     public String execute(HttpServletRequest request) {
         synchronized (request.getSession()) {
             if (isRepeat(request)) {
-                return PATH_JSP.getString("jsp.main");
+                request.setAttribute(ATTR_REDIRECT, true);
+                return REDIRECT_NEXT_PAGE_MAIN;
             }
             User user = (User) request.getSession().getAttribute(ATTR_USER);
             ResourceBundle rb = getCurrentBundle(request);

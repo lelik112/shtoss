@@ -1,7 +1,6 @@
 package net.cheltsov.shtoss.controller;
 
 
-
 import net.cheltsov.shtoss.entity.Deck;
 import net.cheltsov.shtoss.entity.Suit;
 import net.cheltsov.shtoss.resource.BundleManager;
@@ -12,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 
 public class ShtossRequestListener implements ServletRequestListener {
     private static final String ATTR_MESSAGE = "message";
@@ -20,10 +18,14 @@ public class ShtossRequestListener implements ServletRequestListener {
     private static final String COOKIE_DECK = "deck";
     private static final String COOKIE_SUIT = "suit";
 
+    /**
+     * Getting cookies and setting attributes in session scope if session is new
+     */
     @Override
     public void requestInitialized(ServletRequestEvent sre) {
         HttpServletRequest request = (HttpServletRequest) sre.getServletRequest();
         HttpSession session = request.getSession();
+
         if (session.isNew()) {
             Cookie[] cookies = request.getCookies();
             String cookieLanguage = null;

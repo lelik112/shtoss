@@ -8,17 +8,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.Optional;
 
-import static net.cheltsov.shtoss.resource.BundleManager.*;
+import static net.cheltsov.shtoss.resource.BundleManager.PATH_JSP;
 
-public class LoginCommand implements Command {
+public class LoginCommand implements Command, GuestCommand {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String PARAM_ATTR_LOGIN = "login";
     private static final String PARAM_PASSWORD = "password";
     private static final String ATTR_USER = "user";
     private static final String ATTR_ERROR_LOGIN_PASS = "errorLoginPassMessage";
+    private static final String ATTR_REPEATING_OR_REDIRECT = "repeating";
+
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -38,6 +39,7 @@ public class LoginCommand implements Command {
             LOGGER.catching(e);
             request.setAttribute(ATTR_ERROR_LOGIN_PASS, getCurrentBundle(request).getString("mess.error.something-wrong"));
         }
+        request.setAttribute(ATTR_REPEATING_OR_REDIRECT, true);
         return PATH_JSP.getBundle().getString("jsp.login");
     }
 }
