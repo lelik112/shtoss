@@ -28,6 +28,7 @@ public class RoleFilter implements Filter {
     private static final String PARAM_NEXT_PAGE = "nextPage";
     private static final String PAGE_LOGIN = "jsp.login";
     private static final String PAGE_REGISTER = "jsp.register";
+    private static final String PAGE_GUEST = "jsp.guest";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -36,7 +37,8 @@ public class RoleFilter implements Filter {
         User user = (User) request.getSession().getAttribute(ATTR_USER);
         Command command = ((CommandType) request.getAttribute(ATTR_COMMAND_TYPE)).getCommand();
         String nextPage = request.getParameter(PARAM_NEXT_PAGE);
-        boolean isAllowedRedirect = command instanceof RedirectCommand && (PAGE_LOGIN.equals(nextPage) || PAGE_REGISTER.equals(nextPage));
+        boolean isAllowedRedirect = command instanceof RedirectCommand
+                && (PAGE_LOGIN.equals(nextPage) || PAGE_REGISTER.equals(nextPage) || PAGE_GUEST.equals(nextPage));
         if (user == null && !(command instanceof GuestCommand || isAllowedRedirect)) {
             redirect(request, response, PATH_JSP.getString("jsp.index"));
             return;

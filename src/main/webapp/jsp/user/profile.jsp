@@ -83,7 +83,7 @@
                         <input type="hidden" name="command" value="change-email"/>
 
                         <div class="form-group">
-                            <label for="email">${message["mess.label.email-new"]}</label>
+                            <label for="email">${message["mess.label.email-new"]}*</label>
                             <c:set var="email" value="${user.email}" scope="session" />
                             <input id="email" class="form-control" type="email" name="email" value="${email}"
                                    maxlength="30" required/>

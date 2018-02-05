@@ -40,6 +40,15 @@ public interface Command {
     }
 
     /**
+     * Allows to repeat any post command
+     *
+     * @param request from client site
+     */
+    default void allowRepeating(HttpServletRequest request) {
+        request.setAttribute(ATTR_REPEATING, true);
+    }
+
+    /**
      * @param request from client site
      * @return URI of the page to display on client side
      */

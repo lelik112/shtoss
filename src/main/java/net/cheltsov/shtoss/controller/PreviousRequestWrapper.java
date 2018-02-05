@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
+
 /**
  * RequestWrapper implementation for executing command from different parameterMap
  */
@@ -23,7 +24,8 @@ public class PreviousRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public String getParameter(String name) {
-        return parameterMap.get(name)[0];
+        String[] parameters = parameterMap.get(name);
+        return parameters == null || parameters.length < 1 ? null : parameters[0];
     }
 
     @Override

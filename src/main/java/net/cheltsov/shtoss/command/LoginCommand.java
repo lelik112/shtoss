@@ -19,6 +19,8 @@ public class LoginCommand implements Command, GuestCommand {
     private static final String ATTR_USER = "user";
     private static final String ATTR_ERROR_LOGIN_PASS = "errorLoginPassMessage";
     private static final String ATTR_REPEATING_OR_REDIRECT = "repeating";
+    private static final String ATTR_REDIRECT = "redirect";
+    private static final String REDIRECT_NEXT_PAGE_GUEST = "jsp.guest";
 
 
     @Override
@@ -29,7 +31,12 @@ public class LoginCommand implements Command, GuestCommand {
         try {
             Optional<User> shredingerUser = UserService.authorize(loginOrEmail, password);
             if (shredingerUser.isPresent()) {
-                request.getSession().setAttribute(ATTR_USER, shredingerUser.get());
+                User user = shredingerUser.get();
+                if (user.getRole().ordinal() < User.Role.USER.ordinal()) {
+                    request.setAttribute(ATTR_REDIRECT, true);
+                    return REDIRECT_NEXT_PAGE_GUEST;
+                }
+                request.getSession().setAttribute(ATTR_USER, user);
                 LOGGER.log(Level.INFO, "User " + shredingerUser.get().getLogin() + " has just logged in");
                 return PATH_JSP.getString("jsp.main");
             } else {

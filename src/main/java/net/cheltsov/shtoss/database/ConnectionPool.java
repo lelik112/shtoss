@@ -44,7 +44,7 @@ public final class ConnectionPool {
      */
     private static ConnectionPool instance;
 
-    private final String DB_URI_VALUE;
+    private final String DB_URL_VALUE;
     private final Properties properties;
 
     /**
@@ -84,14 +84,14 @@ public final class ConnectionPool {
             throw new RuntimeException("Don't try to do it");
         }
 
-        DB_URI_VALUE = DATABASE.getString("url");
+        DB_URL_VALUE = DATABASE.getString("url");
         currentNumber = new AtomicInteger(0);
         waitingConnections = new ArrayBlockingQueue<>(MAX_SIZE);
         occupiedConnections = new ConcurrentHashMap<>();
         properties = new Properties();
         try {
             properties.load(ConnectionPool.class.getClassLoader().getResourceAsStream("properties/connection.properties"));
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+            new com.mysql.cj.jdbc.Driver();
             createConnections(MIN_SIZE);
         } catch (SQLException | IOException e) {
             LOGGER.log(Level.FATAL, "Can't createUser connection pool", e);
@@ -224,7 +224,7 @@ public final class ConnectionPool {
         int limit = MAX_SIZE - currentNumber.get();
         try {
             for (int i = 0; i < Math.min(quantity, limit); i++) {
-                waitingConnections.add(DriverManager.getConnection(DB_URI_VALUE, properties));
+                waitingConnections.add(DriverManager.getConnection(DB_URL_VALUE, properties));
                 currentNumber.incrementAndGet();
             }
         } finally {

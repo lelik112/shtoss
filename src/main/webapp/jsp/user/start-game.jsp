@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label for="bid">${message["mess.label.bid"]}</label>
                     <input id="bid" class="form-control" type="text" name="bid" required
-                           pattern="^[\d]+[\.,]?[\d]{0,2}$"/>
+                           pattern="^[1-9][\d]{0,3}([\.,][\d]{0,2})?$"/>
                 </div>
                 <div class="form-group">
                     <label for="card">${message["mess.label.card"]}</label>

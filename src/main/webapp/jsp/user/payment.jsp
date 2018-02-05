@@ -11,7 +11,8 @@
         <input type="hidden" name="command" value="payment"/>
         <div class="form-group">
             <label for="amount">${message["mess.label.amount"]}</label>
-            <input id="amount" class="form-control" type="text" name="amount" required pattern="^[1-9][\d]{0,5}[\.,]?[\d]{0,2}$" />
+            <input id="amount" class="form-control" type="text" name="amount" required
+                   pattern="^[1-9][\d]{0,3}([\.,][\d]{0,2})?$"/>
         </div>
         <button class="btn btn-default" type="submit">${message["mess.button.payment"]}</button>
         <br/>

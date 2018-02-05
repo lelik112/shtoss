@@ -39,14 +39,10 @@ public class GameCommand implements Command {
                 request.setAttribute(ATTR_REDIRECT, true);
                 return REDIRECT_NEXT_PAGE_MAIN;
             }
-
             User user = (User) request.getSession().getAttribute(ATTR_USER);
-
             int card = Integer.parseInt(request.getParameter(PARAM_ATTR_CARD));
-
             Deck deck = (Deck) request.getSession().getAttribute(ATTR_DECK);
             deck = deck != null ? deck : (Deck) request.getServletContext().getAttribute(ATTR_DECK);
-
             String stringBid = request.getParameter(PARAM_ATTR_BID).replace(',', '.');
             BigDecimal bid = Validator.validatePayment(stringBid) ? new BigDecimal(stringBid) : BigDecimal.ZERO;
 
@@ -55,11 +51,13 @@ public class GameCommand implements Command {
             if (bid.equals(BigDecimal.ZERO)) {
                 request.setAttribute(ATTR_ERROR, rb.getString("mess.error.something-wrong"));
                 LOGGER.log(Level.WARN, "Bid's pattern problem");
+                allowRepeating(request);
                 return PATH_JSP.getString("jsp.start-game");
             }
 
             if (bid.compareTo(user.getBalance()) > 0) {
                 request.setAttribute(ATTR_WRONG_ACTION, rb.getString("mess.error.wrong-action.bid"));
+                allowRepeating(request);
                 return PATH_JSP.getString("jsp.start-game");
             }
 
